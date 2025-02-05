@@ -59,8 +59,8 @@ function App() {
                 >
                   <div>
                     <p className="text-white/90 leading-snug text-sm">
-                      Bareshells is a design studio that celebrates the harmony
-                      of simplicity and substance.
+                      Bareshells is a multidisciplinary design studio that
+                      celebrates the harmony of simplicity and substance.
                     </p>
                     <br />
                     <p className="text-white/90 leading-snug text-sm">

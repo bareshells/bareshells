@@ -9,7 +9,8 @@ const jost = Jost({
 
 export const metadata: Metadata = {
   title: "Bareshells",
-  description: "",
+  description:
+    "Bareshells is a multidisciplinary design studio that celebrates the harmony of simplicity and substance.",
 };
 
 export default function RootLayout({
