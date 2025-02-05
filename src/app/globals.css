@@ -1,10 +1,15 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@font-face {
+  font-family: "Copperplate";
+  src: url("/Sans-Copperplate Gothic Regular.ttf");
+}
 
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --font-copperplate: "Copperplate", sans-serif;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -17,5 +22,5 @@
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-copperplate);
 }

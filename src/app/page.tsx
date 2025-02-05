@@ -1,101 +1,114 @@
-import Image from "next/image";
+"use client";
 
-export default function Home() {
+import { AnimatePresence, motion } from "framer-motion";
+import { useState } from "react";
+
+function App() {
+  const [showContent, setShowContent] = useState(false);
+
+  const socialLinks = [
+    { name: "Instagram", url: "http://instagram.com/bareshells" },
+    // { name: "Collection", url: "mailto:bareshells@gmail.com" },
+    { name: "Contact", url: "mailto:bareshells@gmail.com" },
+  ];
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+    <main className="relative h-dvh w-screen overflow-hidden">
+      <video
+        autoPlay
+        loop
+        muted
+        playsInline
+        className="absolute top-0 left-0 w-full h-full object-cover"
+      >
+        <source src="/plum-showcase.mp4" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+      <AnimatePresence>
+        {showContent && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="absolute inset-0 opacity-40 bg-[rgb(0,0,0,0.5)]"
+          />
+        )}
+      </AnimatePresence>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+      <div className="relative z-10 h-full w-full">
+        <div className="mt-6 flex gap-2 flex-col">
+          <button
+            onClick={() => setShowContent(!showContent)}
+            className="text-white px-6 py-2 rounded-full 
+            hover:opacity-50 transition-all duration-300 tracking-[4px] text-[16px]"
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+            BARESHELLS
+          </button>
+
+          <AnimatePresence>
+            {showContent && (
+              <div className="absolute bottom-14 w-full px-14 flex flex-col sm:flex-row justify-between gap-6 font-[Helvetica] font-extralight text-[12px]">
+                {/* Text Box */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 20 }}
+                  transition={{ duration: 0.3 }}
+                  className="flex max-w-[400px] items-end"
+                >
+                  <div>
+                    <p className="text-white/90 leading-snug text-sm">
+                      Bareshells is a design studio that celebrates the harmony
+                      of simplicity and substance.
+                    </p>
+                    <br />
+                    <p className="text-white/90 leading-snug text-sm">
+                      We craft objects and furniture with refined precision,
+                      using honest materials and clean, intentional lines. Each
+                      piece is designed to complement a space, allowing it to
+                      breathe with a quiet elegance and effortless
+                      sophistication.
+                    </p>
+                  </div>
+                </motion.div>
+                <hr className="border-[0.1px] sm:hidden" />
+                {/* Social Links */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 20 }}
+                  transition={{ duration: 0.3, delay: 0.1 }}
+                  className="justify-around items-start sm:items-end flex sm:flex-col sm:justify-end sm:gap-1"
+                >
+                  {socialLinks.map((link, index) => (
+                    <motion.a
+                      key={link.name}
+                      href={link.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      initial={{ opacity: 0, x: 0 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: 0 }}
+                      transition={{ duration: 0.3, delay: index * 0.1 }}
+                      className="group"
+                    >
+                      <span
+                        className="text-white hover:opacity-50 transition-all duration-300 
+                                   font-light tracking-wider flex items-center gap-2"
+                      >
+                        {link.name}
+                      </span>
+                    </motion.a>
+                  ))}
+                </motion.div>
+              </div>
+            )}
+          </AnimatePresence>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+      </div>
+    </main>
   );
 }
+
+export default App;
