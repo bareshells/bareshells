@@ -72,7 +72,14 @@ function App() {
                     </p>
                   </div>
                 </motion.div>
-                <hr className="border-[0.1px] sm:hidden" />
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 20 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <hr className="border-[0.1px] sm:hidden" />
+                </motion.div>
                 {/* Social Links */}
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
