@@ -9,7 +9,8 @@ function App() {
   const socialLinks = [
     { name: "Instagram", url: "http://instagram.com/bareshells" },
     // { name: "Collection", url: "mailto:bareshells@gmail.com" },
-    { name: "Contact", url: "mailto:bareshells@gmail.com" },
+    { name: "Line OA", url: "https://page.line.me/bareshells" },
+    { name: "Email", url: "mailto:bareshells@gmail.com" },
   ];
 
   return (
@@ -48,7 +49,7 @@ function App() {
 
           <AnimatePresence>
             {showContent && (
-              <div className="absolute bottom-14 w-full px-14 flex flex-col sm:flex-row justify-between gap-6 font-[Helvetica] font-extralight text-[12px]">
+              <div className="absolute bottom-14 w-full px-14 flex flex-col sm:flex-row justify-between gap-6 font-[Helvetica] font-extralight text-sm">
                 {/* Text Box */}
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
