@@ -37,15 +37,15 @@ function App() {
       )}
 
       {/* Hero video section */}
-      <div ref={heroRef} className="h-screen relative overflow-hidden">
+      <div ref={heroRef} className="md:h-screen relative overflow-hidden">
         <video
           autoPlay
           loop
           muted
           playsInline
-          className="w-full h-full object-cover z-0"
+          className="w-full h-full object-contain md:object-cover z-0"
         >
-          <source src="/plum-showcase-single.mp4" type="video/mp4" />
+          <source src="/plum-showcase-single.MP4" type="video/mp4" />
           Your browser does not support the video tag.
         </video>
 
