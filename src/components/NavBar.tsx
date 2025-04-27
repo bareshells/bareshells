@@ -52,10 +52,14 @@ export default function NavBar({ isSticky = false }) {
             onClick={handleMenuClick}
           >
             {/* Hamburger icon for mobile */}
-            <span className="md:hidden flex flex-col justify-between h-[14px] w-[20px]">
-              <span className="bg-black h-[0.5px] w-full"></span>
-              <span className="bg-black h-[0.5px] w-full"></span>
-              <span className="bg-black h-[0.5px] w-full"></span>
+            <span className="md:hidden">
+              <Image
+                src="/hamburger.svg"
+                width={20}
+                height={14}
+                alt="Menu"
+                priority
+              />
             </span>
             {/* Text for desktop */}
             <span className="hidden md:inline">MENU</span>

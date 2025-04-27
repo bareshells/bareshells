@@ -20,7 +20,12 @@ export default function ExhibitionsPage() {
             any space.
           </h1>
           <br />
-          <h1>332 E 4TH ST. NEW YORK, NY 10009</h1>
+          <a
+            href="https://maps.google.com/?q=332+E+4TH+ST.+NEW+YORK,+NY+10009"
+            className="inline-block hover:opacity-50 transition-opacity"
+          >
+            332 E 4TH ST. NEW YORK, NY 10009
+          </a>
         </div>
         <a
           className="hover:opacity-50 transition-opacity mb-8"
