@@ -34,8 +34,8 @@ export default function NavBar({ isSticky = false }) {
   };
 
   const menuItems = [
-    { label: "FURNITURE", href: "/furniture" },
-    { label: "SPACES", href: "/spaces" },
+    { label: "COLLECTIONS", href: "/collections" },
+    { label: "EXHIBITIONS", href: "/exhibitions" },
     { label: "SHOP", href: "/shop" },
   ];
 
