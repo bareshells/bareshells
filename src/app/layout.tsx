@@ -5,6 +5,7 @@ export const metadata: Metadata = {
   title: "Bareshells",
   description:
     "Bareshells is a multidisciplinary design studio that celebrates the harmony of simplicity and substance.",
+  viewport: "width=device-width, initial-scale=1, viewport-fit=cover",
 };
 
 export default function RootLayout({
