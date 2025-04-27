@@ -24,7 +24,7 @@ export default function ShopSectionsLayout({
   }, []);
 
   return (
-    <main className="relative min-h-[100dvh] w-full overflow-x-hidden">
+    <main className="relative min-h-[100dvh] w-full overflow-x-hidden flex flex-col">
       {/* Mobile sticky navbar - always visible on small screens */}
       <div className="fixed top-0 left-0 w-full z-40 bg-white/90 backdrop-blur-sm md:hidden pt-safe">
         <NavBar isSticky={true} />

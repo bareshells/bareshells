@@ -1,4 +1,5 @@
 "use client";
+
 import Image from "next/image";
 import { useRef } from "react";
 
@@ -80,9 +81,9 @@ export default function FurniturePage() {
   };
 
   return (
-    <>
+    <div className="w-full flex-grow flex flex-col">
       {/* Mobile Layout - Each image is its own snap point */}
-      <div className="md:hidden h-[94dvh] w-full overflow-y-scroll snap-y snap-mandatory scroll-smooth mt-10">
+      <div className="md:hidden h-[94dvh] w-full overflow-y-scroll snap-y snap-mandatory scroll-smooth mt-10 flex-grow">
         {/* Image 1 */}
         <section
           ref={mobileSection1Ref}
@@ -237,33 +238,33 @@ export default function FurniturePage() {
       </div>
 
       {/* Desktop Layout - Two images per snap point */}
-      <div className="hidden md:block h-[94dvh] w-full overflow-y-scroll snap-y snap-mandatory scroll-smooth">
+      <div className="hidden md:block h-[94dvh] w-full overflow-y-scroll snap-y snap-mandatory scroll-smooth flex-grow">
         <section
           ref={section1Ref}
           onClick={(e) => handleDesktopSectionClick(e, 0)}
           className="h-[94dvh] w-full snap-start flex items-center justify-center p-4 cursor-pointer"
         >
-          <div className="flex flex-row w-full max-w-6xl gap-6 items-center justify-center">
-            <div className="flex-1 flex items-center justify-center relative h-[75vh]">
+          <div className="flex flex-row w-full max-w-3xl">
+            <div className="relative w-1/2 h-[70vh]">
               <Image
                 src="/IMG_6692.jpg"
-                alt="exhibition"
+                alt="MAANN Left Image"
                 fill
-                sizes="(min-width: 768px) 50vw, 100vw"
-                priority
-                className="object-contain"
+                sizes="50vw"
+                className="object-cover"
                 quality={85}
+                priority
               />
             </div>
-            <div className="flex-1 flex items-center justify-center relative h-[75vh]">
+            <div className="relative w-1/2 h-[70vh]">
               <Image
                 src="/IMG_6707.jpg"
-                alt="exhibition"
+                alt="MAANN Right Image"
                 fill
-                sizes="(min-width: 768px) 50vw, 100vw"
-                className="object-contain"
+                sizes="50vw"
+                className="object-cover"
                 quality={85}
-                loading="lazy"
+                priority
               />
             </div>
           </div>
@@ -274,25 +275,25 @@ export default function FurniturePage() {
           onClick={(e) => handleDesktopSectionClick(e, 1)}
           className="h-[94dvh] w-full snap-start flex items-center justify-center p-4 cursor-pointer"
         >
-          <div className="flex flex-row w-full max-w-6xl gap-6 items-center justify-center">
-            <div className="flex-1 flex items-center justify-center relative h-[75vh]">
+          <div className="flex flex-row w-full max-w-3xl">
+            <div className="relative w-1/2 h-[70vh]">
               <Image
                 src="/IMG_6693.jpg"
-                alt="exhibition"
+                alt="MAANN Left Image"
                 fill
-                sizes="(min-width: 768px) 50vw, 100vw"
-                className="object-contain"
+                sizes="50vw"
+                className="object-cover"
                 quality={85}
                 loading="lazy"
               />
             </div>
-            <div className="flex-1 flex items-center justify-center relative h-[75vh]">
+            <div className="relative w-1/2 h-[70vh]">
               <Image
                 src="/IMG_6696.jpg"
-                alt="exhibition"
+                alt="MAANN Right Image"
                 fill
-                sizes="(min-width: 768px) 50vw, 100vw"
-                className="object-contain"
+                sizes="50vw"
+                className="object-cover"
                 quality={85}
                 loading="lazy"
               />
@@ -305,25 +306,25 @@ export default function FurniturePage() {
           onClick={(e) => handleDesktopSectionClick(e, 2)}
           className="h-[94dvh] w-full snap-start flex items-center justify-center p-4 cursor-pointer"
         >
-          <div className="flex flex-row w-full max-w-6xl gap-6 items-center justify-center">
-            <div className="flex-1 flex items-center justify-center relative h-[75vh]">
+          <div className="flex flex-row w-full max-w-3xl">
+            <div className="relative w-1/2 h-[70vh]">
               <Image
                 src="/S03-0069.jpg"
-                alt="exhibition"
+                alt="MAANN Left Image"
                 fill
-                sizes="(min-width: 768px) 50vw, 100vw"
-                className="object-contain"
+                sizes="50vw"
+                className="object-cover"
                 quality={85}
                 loading="lazy"
               />
             </div>
-            <div className="flex-1 flex items-center justify-center relative h-[75vh]">
+            <div className="relative w-1/2 h-[70vh]">
               <Image
                 src="/S03-0066.jpg"
-                alt="exhibition"
+                alt="MAANN Right Image"
                 fill
-                sizes="(min-width: 768px) 50vw, 100vw"
-                className="object-contain"
+                sizes="50vw"
+                className="object-cover"
                 quality={85}
                 loading="lazy"
               />
@@ -336,25 +337,25 @@ export default function FurniturePage() {
           onClick={(e) => handleDesktopSectionClick(e, 3)}
           className="h-[94dvh] w-full snap-start flex items-center justify-center p-4 cursor-pointer"
         >
-          <div className="flex flex-row w-full max-w-6xl gap-6 items-center justify-center">
-            <div className="flex-1 flex items-center justify-center relative h-[75vh]">
+          <div className="flex flex-row w-full max-w-3xl">
+            <div className="relative w-1/2 h-[70vh]">
               <Image
                 src="/S01-0039.jpg"
-                alt="exhibition"
+                alt="MAANN Left Image"
                 fill
-                sizes="(min-width: 768px) 50vw, 100vw"
-                className="object-contain"
+                sizes="50vw"
+                className="object-cover"
                 quality={85}
                 loading="lazy"
               />
             </div>
-            <div className="flex-1 flex items-center justify-center relative h-[75vh]">
+            <div className="relative w-1/2 h-[70vh]">
               <Image
                 src="/S01-0045.jpg"
-                alt="exhibition"
+                alt="MAANN Right Image"
                 fill
-                sizes="(min-width: 768px) 50vw, 100vw"
-                className="object-contain"
+                sizes="50vw"
+                className="object-cover"
                 quality={85}
                 loading="lazy"
               />
@@ -362,6 +363,6 @@ export default function FurniturePage() {
           </div>
         </section>
       </div>
-    </>
+    </div>
   );
 }

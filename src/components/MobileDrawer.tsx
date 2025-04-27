@@ -72,7 +72,7 @@ export default function MobileDrawer({
           </svg>
         </button>
 
-        <div className="flex flex-col p-8 gap-8 text-[11px] tracking-[2px] mt-16 overflow-y-auto">
+        <div className="flex flex-col p-8 gap-8   mt-16 overflow-y-auto">
           {menuItems.map((item) => (
             <a
               key={item.label}

@@ -34,8 +34,8 @@ export default function NavBar({ isSticky = false }) {
   };
 
   const menuItems = [
-    { label: "COLLECTIONS", href: "/collections" },
     { label: "EXHIBITIONS", href: "/exhibitions" },
+    { label: "COLLECTIONS", href: "/collections" },
     { label: "SHOP", href: "/shop" },
   ];
 
@@ -46,12 +46,19 @@ export default function NavBar({ isSticky = false }) {
           isSticky ? "bg-transparent" : "bg-white"
         } px-6`}
       >
-        <div className="text-black flex flex-row items-end tracking-[2px] text-[11px]">
+        <div className="text-black flex flex-row items-end  ">
           <a
-            className="cursor-pointer hover:opacity-50 transition-opacity mr-8"
+            className="cursor-pointer hover:opacity-50 transition-opacity mr-8 flex items-center"
             onClick={handleMenuClick}
           >
-            MENU
+            {/* Hamburger icon for mobile */}
+            <span className="md:hidden flex flex-col justify-between h-[14px] w-[20px]">
+              <span className="bg-black h-[0.5px] w-full"></span>
+              <span className="bg-black h-[0.5px] w-full"></span>
+              <span className="bg-black h-[0.5px] w-full"></span>
+            </span>
+            {/* Text for desktop */}
+            <span className="hidden md:inline">MENU</span>
           </a>
 
           {/* Desktop horizontal menu - hidden on mobile */}

@@ -23,4 +23,7 @@ body {
   background: var(--background);
   font-family: var(--font-copperplate);
   padding-bottom: var(--sab);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
 }
