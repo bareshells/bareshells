@@ -63,10 +63,15 @@ export default function App() {
 
       {/* Collections content */}
       <div>
-        <div className="flex flex-col w-full h-[55dvh] md:h-[90.5dvh] bg-white justify-center items-center tracking-[2px] text-[11px] uppercase">
-          <h1>FOR MAANN</h1>
-          <h1>332 E 4TH ST.</h1>
-          <h1>NEW YORK, NY 10009</h1>
+        <div className="flex flex-col w-full h-[55dvh] md:h-[90.5dvh] bg-white justify-center items-center">
+          <a
+            href="/exhibitions"
+            className="flex flex-col hover:opacity-50 transition-opacity tracking-[2px] text-[11px] uppercase justify-center items-center"
+          >
+            <h1>FOR MAANN</h1>
+            <h1>332 E 4TH ST.</h1>
+            <h1>NEW YORK, NY 10009</h1>
+          </a>
         </div>
         <div className="flex flex-row gap-8 justify-center items-center tracking-[2px] text-[11px] mb-4 uppercase pb-safe">
           {socialLinks.map((link) => (

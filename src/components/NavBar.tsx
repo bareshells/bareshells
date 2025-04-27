@@ -57,7 +57,7 @@ export default function NavBar({ isSticky = false }) {
           {/* Desktop horizontal menu - hidden on mobile */}
           <div
             className={`hidden md:flex flex-row gap-6 transition-all duration-300 ease-in-out overflow-hidden ${
-              menuExpanded ? "max-w-[300px] opacity-100" : "max-w-0 opacity-0"
+              menuExpanded ? "max-w-[400px] opacity-100" : "max-w-0 opacity-0"
             }`}
           >
             {menuItems.map((item) => (
