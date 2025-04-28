@@ -8,16 +8,15 @@ export default function ExhibitionsPage() {
       <div className="flex-grow flex flex-col justify-center items-center  ">
         <div className="max-w-lg   gap-10 p-10">
           <h1>
-            Created exclusively for the 2025 MAANN Pop-Up in New York City this
-            May, this collection embodies a modern, minimalist aesthetic while
-            staying true to traditional Thai craftsmanship.
+            Created for the 2025 MAANN Pop-Up in New York City this May. This
+            collection embodies a modern, minimalist aesthetic while staying
+            true to traditional Thai craftsmanship.
           </h1>
           <br />
           <h1>
-            Our Thai Triangle Cushion embodies heritage and comfort. Inspired by
-            centuries-old Thai culture, its signature triangular shape
-            represents stability and mindfulness, making it a timeless piece for
-            any space.
+            Our Triangle Cushion embodies heritage and comfort. Inspired by
+            centuries-old culture, its signature triangular shape represents
+            stability and mindfulness, making it a timeless piece for any space.
           </h1>
           <br />
           <a
