@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   viewport: "width=device-width, initial-scale=1, viewport-fit=cover",
   icons: {
     icon: [{ url: "/favicon.png" }],
-    apple: [{ url: "/favicon.png" }],
+    apple: [{ url: "/favicon-large.png" }],
   },
   openGraph: {
     title: "Bareshells",
