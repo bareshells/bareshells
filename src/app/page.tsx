@@ -62,16 +62,7 @@ export default function HomePage() {
           ref={heroRef}
           className="mt-[42px] md:mt-0 md:h-[100dvh] md:min-h-[100dvh] relative overflow-hidden md:snap-start"
         >
-          <video
-            autoPlay
-            loop
-            muted
-            playsInline
-            className="hidden md:block w-full h-full object-contain md:object-cover z-0 md:mt-0"
-          >
-            <source src="/plum-showcase-single.MP4" type="video/mp4" />
-            Your browser does not support the video tag.
-          </video>
+          <img src="/IMG_1058_rotate.png" />
 
           <div
             ref={navbarRef}
