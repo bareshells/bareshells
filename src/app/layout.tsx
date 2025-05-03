@@ -18,7 +18,7 @@ export const metadata: Metadata = {
     siteName: "Bareshells",
     images: [
       {
-        url: "https://bareshells.com/scaffolding.PNG", // must be absolute URL!
+        url: "https://bareshells.com/scaffolding.png", // must be absolute URL!
         width: 1200,
         height: 630,
         alt: "Bareshells Studio",
