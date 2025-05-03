@@ -84,7 +84,7 @@ export default function NavBar({ isSticky = false }) {
         </div>
         <Link href="/">
           <Image
-            src="/Bareshells-Thin.svg"
+            src="/bareshells.svg"
             alt="BARESHELLS"
             width={100}
             height={16}
