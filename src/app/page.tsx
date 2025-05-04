@@ -62,7 +62,15 @@ export default function HomePage() {
           ref={heroRef}
           className="mt-[42px] md:mt-0 md:h-[100dvh] md:min-h-[100dvh] relative overflow-hidden md:snap-start"
         >
-          <img src="/IMG_1058_rotate.png" />
+          <Image
+            src="/IMG_1058_rotate.png"
+            alt="Concrete image"
+            fill
+            className="object-cover"
+            sizes="(max-width: 768px) 50vw, 33vw"
+            priority
+            quality={75}
+          />
 
           <div
             ref={navbarRef}
