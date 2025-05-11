@@ -1,18 +1,15 @@
 "use client";
 
 import SocialLinks from "@/components/SocialLinks";
-import Image from "next/image";
 
 export default function ShopPage() {
   return (
-    <div className="w-full flex-grow flex flex-col bg-white">
-      <div className="flex-grow flex flex-col justify-center items-center  ">
-        <Image
-          src="/lounge-sketch.jpg"
-          alt="exhibition"
-          width={340}
-          height={340}
-        />
+    <div className="flex flex-col flex-grow mt-[42px] md:mt-0">
+      <div className="flex-grow flex flex-col justify-center items-center ">
+        <p className="text-center w-full max-w-[20.5rem] md:max-w-[768px]">
+          Shop our current collection at 332 E 4TH ST. or contact us for online
+          purchases.
+        </p>
       </div>
       <div className="mt-auto">
         <SocialLinks />
