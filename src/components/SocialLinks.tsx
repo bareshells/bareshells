@@ -1,11 +1,17 @@
 interface SocialLink {
   name: string;
   url: string;
+  isExternal?: boolean;
 }
 
 const socialLinks: SocialLink[] = [
-  { name: "Instagram", url: "http://instagram.com/bareshells" },
-  { name: "Contact us", url: "mailto:bareshells@gmail.com" },
+  {
+    name: "Instagram",
+    url: "http://instagram.com/bareshells",
+    isExternal: true,
+  },
+  { name: "FAQ", url: "/faq", isExternal: false },
+  { name: "Contact us", url: "mailto:bareshells@gmail.com", isExternal: true },
 ];
 
 export default function SocialLinks() {
@@ -15,6 +21,10 @@ export default function SocialLinks() {
         <a
           href={link.url}
           key={link.name}
+          {...(link.isExternal && {
+            target: "_blank",
+            rel: "noopener noreferrer",
+          })}
           className="hover:opacity-50 transition-opacity"
         >
           {link.name}

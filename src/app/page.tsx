@@ -45,11 +45,9 @@ export default function HomePage() {
       </div>
 
       {/* Desktop sticky navbar that appears when scrolled */}
-      {isScrolled && (
-        <div className="fixed top-0 left-0 w-full z-50 bg-white/90 backdrop-blur-sm transition-all duration-300 hidden md:block">
-          <NavBar isSticky={true} />
-        </div>
-      )}
+      <div className="fixed top-0 left-0 w-full z-50 bg-white/90 backdrop-blur-sm transition-all duration-300 hidden md:block">
+        <NavBar isSticky={true} />
+      </div>
 
       {/* On mobile: flex container to ensure content fills screen */}
       {/* On desktop: scroll snap container */}
@@ -58,7 +56,7 @@ export default function HomePage() {
         className="flex flex-col md:h-[100dvh] md:overflow-y-scroll md:snap-y md:snap-mandatory flex-grow scrollbar-hide"
       >
         {/* Hero video section */}
-        <div
+        {/* <div
           ref={heroRef}
           className="mt-[42px] md:mt-0 md:h-[100dvh] md:min-h-[100dvh] relative overflow-hidden md:snap-start"
         >
@@ -78,7 +76,7 @@ export default function HomePage() {
           >
             <NavBar />
           </div>
-        </div>
+        </div> */}
 
         {/* Collections content */}
         <div className="w-full flex-grow flex flex-col bg-white md:h-[100dvh] md:min-h-[100dvh] md:snap-start">
