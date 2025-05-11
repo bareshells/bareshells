@@ -3,40 +3,8 @@
 import NavBar from "@/components/NavBar";
 import SocialLinks from "@/components/SocialLinks";
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
 
 export default function HomePage() {
-  const [isScrolled, setIsScrolled] = useState(false);
-  const heroRef = useRef<HTMLDivElement>(null);
-  const navbarRef = useRef<HTMLDivElement>(null);
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
-
-  // Handle scroll events to update navbar position
-  useEffect(() => {
-    const scrollContainer = scrollContainerRef.current;
-
-    const handleScroll = () => {
-      // Use the scroll container's scroll position relative to hero height
-      if (scrollContainer && heroRef.current) {
-        // Only show sticky navbar when scrolled past the hero section (with a small buffer)
-        const threshold = heroRef.current.offsetHeight - 60;
-        setIsScrolled(scrollContainer.scrollTop > threshold);
-      }
-    };
-
-    if (scrollContainer) {
-      scrollContainer.addEventListener("scroll", handleScroll);
-      // Initial check
-      handleScroll();
-    }
-
-    return () => {
-      if (scrollContainer) {
-        scrollContainer.removeEventListener("scroll", handleScroll);
-      }
-    };
-  }, []);
-
   return (
     <main className="relative min-h-[100dvh] w-full overflow-x-hidden flex flex-col">
       {/* Mobile sticky navbar - always visible on small screens */}
@@ -51,10 +19,7 @@ export default function HomePage() {
 
       {/* On mobile: flex container to ensure content fills screen */}
       {/* On desktop: scroll snap container */}
-      <div
-        ref={scrollContainerRef}
-        className="flex flex-col md:h-[100dvh] md:overflow-y-scroll md:snap-y md:snap-mandatory flex-grow scrollbar-hide"
-      >
+      <div className="flex flex-col md:h-[100dvh] md:overflow-y-scroll md:snap-y md:snap-mandatory flex-grow scrollbar-hide">
         {/* Hero video section */}
         {/* <div
           ref={heroRef}
