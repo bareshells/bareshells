@@ -3,8 +3,9 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Bareshells",
+  applicationName: "Bareshells",
   description:
-    "Bareshells is a design studio shaping objects, spaces, and concepts. We care about materials, details, and doing more with less.",
+    "Bareshells is a design studio dedicated to crafting refined furniture and objects.",
   viewport: "width=device-width, initial-scale=1, viewport-fit=cover",
   icons: {
     icon: [{ url: "/favicon.png" }],
@@ -12,7 +13,8 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: "Bareshells",
-    description: "",
+    description:
+      "Bareshells is a design studio dedicated to crafting refined furniture and objects.",
     url: "https://bareshells.com", // your real domain here
     siteName: "Bareshells",
     images: [
