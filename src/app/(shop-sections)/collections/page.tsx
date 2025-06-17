@@ -83,7 +83,7 @@ export default function FurniturePage() {
   return (
     <div className="w-full flex-grow flex flex-col">
       {/* Mobile Layout - Each image is its own snap point */}
-      <div className="md:hidden h-[94dvh] w-full overflow-y-scroll snap-y snap-mandatory scroll-smooth mt-10 flex-grow">
+      <div className="md:hidden h-[94dvh] w-full overflow-y-scroll snap-y snap-mandatory scroll-smooth mt-10 flex-grow [scroll-behavior:smooth] [overscroll-behavior:contain]">
         {/* Image 1 */}
         <section
           ref={mobileSection1Ref}
@@ -95,7 +95,7 @@ export default function FurniturePage() {
               src="/IMG_6692.jpg"
               alt="exhibition"
               fill
-              sizes="100vw"
+              sizes="(max-width: 768px) 100vw, 50vw"
               priority
               className="object-contain"
               quality={85}
@@ -114,7 +114,7 @@ export default function FurniturePage() {
               src="/IMG_6707.jpg"
               alt="exhibition"
               fill
-              sizes="100vw"
+              sizes="(max-width: 768px) 100vw, 50vw"
               className="object-contain"
               quality={85}
               loading="lazy"
@@ -133,7 +133,7 @@ export default function FurniturePage() {
               src="/IMG_6693.jpg"
               alt="exhibition"
               fill
-              sizes="100vw"
+              sizes="(max-width: 768px) 100vw, 50vw"
               className="object-contain"
               quality={85}
               loading="lazy"
@@ -152,7 +152,7 @@ export default function FurniturePage() {
               src="/IMG_6696.jpg"
               alt="exhibition"
               fill
-              sizes="100vw"
+              sizes="(max-width: 768px) 100vw, 50vw"
               className="object-contain"
               quality={85}
               loading="lazy"
@@ -171,7 +171,7 @@ export default function FurniturePage() {
               src="/S03-0069.jpg"
               alt="exhibition"
               fill
-              sizes="100vw"
+              sizes="(max-width: 768px) 100vw, 50vw"
               className="object-contain"
               quality={85}
               loading="lazy"
@@ -190,7 +190,7 @@ export default function FurniturePage() {
               src="/S03-0066.jpg"
               alt="exhibition"
               fill
-              sizes="100vw"
+              sizes="(max-width: 768px) 100vw, 50vw"
               className="object-contain"
               quality={85}
               loading="lazy"
@@ -209,7 +209,7 @@ export default function FurniturePage() {
               src="/S01-0039.jpg"
               alt="exhibition"
               fill
-              sizes="100vw"
+              sizes="(max-width: 768px) 100vw, 50vw"
               className="object-contain"
               quality={85}
               loading="lazy"
@@ -228,7 +228,7 @@ export default function FurniturePage() {
               src="/S01-0045.jpg"
               alt="exhibition"
               fill
-              sizes="100vw"
+              sizes="(max-width: 768px) 100vw, 50vw"
               className="object-contain"
               quality={85}
               loading="lazy"
@@ -238,7 +238,7 @@ export default function FurniturePage() {
       </div>
 
       {/* Desktop Layout - Two images per snap point */}
-      <div className="hidden md:block h-[94dvh] w-full overflow-y-scroll snap-y snap-mandatory scroll-smooth flex-grow">
+      <div className="hidden md:block h-[94dvh] w-full overflow-y-scroll snap-y snap-mandatory scroll-smooth flex-grow [scroll-behavior:smooth] [overscroll-behavior:contain]">
         <section
           ref={section1Ref}
           onClick={(e) => handleDesktopSectionClick(e, 0)}
@@ -250,8 +250,8 @@ export default function FurniturePage() {
                 src="/IMG_6692.jpg"
                 alt="MAANN Left Image"
                 fill
-                sizes="50vw"
-                className="object-cover"
+                sizes="(max-width: 768px) 100vw, 50vw"
+                className="object-contain"
                 quality={85}
                 priority
               />
@@ -261,8 +261,8 @@ export default function FurniturePage() {
                 src="/IMG_6707.jpg"
                 alt="MAANN Right Image"
                 fill
-                sizes="50vw"
-                className="object-cover"
+                sizes="(max-width: 768px) 100vw, 50vw"
+                className="object-contain"
                 quality={85}
                 priority
               />
@@ -281,8 +281,8 @@ export default function FurniturePage() {
                 src="/IMG_6693.jpg"
                 alt="MAANN Left Image"
                 fill
-                sizes="50vw"
-                className="object-cover"
+                sizes="(max-width: 768px) 100vw, 50vw"
+                className="object-contain"
                 quality={85}
                 loading="lazy"
               />
@@ -292,8 +292,8 @@ export default function FurniturePage() {
                 src="/IMG_6696.jpg"
                 alt="MAANN Right Image"
                 fill
-                sizes="50vw"
-                className="object-cover"
+                sizes="(max-width: 768px) 100vw, 50vw"
+                className="object-contain"
                 quality={85}
                 loading="lazy"
               />
@@ -312,8 +312,8 @@ export default function FurniturePage() {
                 src="/S03-0069.jpg"
                 alt="MAANN Left Image"
                 fill
-                sizes="50vw"
-                className="object-cover"
+                sizes="(max-width: 768px) 100vw, 50vw"
+                className="object-contain"
                 quality={85}
                 loading="lazy"
               />
@@ -323,8 +323,8 @@ export default function FurniturePage() {
                 src="/S03-0066.jpg"
                 alt="MAANN Right Image"
                 fill
-                sizes="50vw"
-                className="object-cover"
+                sizes="(max-width: 768px) 100vw, 50vw"
+                className="object-contain"
                 quality={85}
                 loading="lazy"
               />
@@ -343,8 +343,8 @@ export default function FurniturePage() {
                 src="/S01-0039.jpg"
                 alt="MAANN Left Image"
                 fill
-                sizes="50vw"
-                className="object-cover"
+                sizes="(max-width: 768px) 100vw, 50vw"
+                className="object-contain"
                 quality={85}
                 loading="lazy"
               />
@@ -354,8 +354,8 @@ export default function FurniturePage() {
                 src="/S01-0045.jpg"
                 alt="MAANN Right Image"
                 fill
-                sizes="50vw"
-                className="object-cover"
+                sizes="(max-width: 768px) 100vw, 50vw"
+                className="object-contain"
                 quality={85}
                 loading="lazy"
               />
