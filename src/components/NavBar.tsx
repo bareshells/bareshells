@@ -1,5 +1,4 @@
 import Image from "next/image";
-import Link from "next/link";
 import { useEffect, useState } from "react";
 import MobileDrawer from "./MobileDrawer";
 
@@ -34,9 +33,10 @@ export default function NavBar({ isSticky = false }) {
   };
 
   const menuItems = [
-    { label: "EXHIBITIONS", href: "/exhibitions" },
+    { label: "HOME", href: "/" },
+    // { label: "EXHIBITIONS", href: "/exhibitions" },
     { label: "COLLECTIONS", href: "/collections" },
-    { label: "SHOP", href: "/shop" },
+    // { label: "SHOP", href: "/shop" },
   ];
 
   return (
@@ -82,7 +82,7 @@ export default function NavBar({ isSticky = false }) {
             ))}
           </div>
         </div>
-        <Link href="/">
+        {/* <Link href="/">
           <Image
             src="/bareshells.svg"
             alt="BARESHELLS"
@@ -90,7 +90,7 @@ export default function NavBar({ isSticky = false }) {
             height={16}
             className="w-auto h-3 object-contain mb-0.5"
           />
-        </Link>
+        </Link> */}
       </div>
 
       {/* Mobile drawer */}

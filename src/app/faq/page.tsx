@@ -123,10 +123,10 @@ export default function FAQPage() {
                   <p>
                     FOR BESPOKE OR COLLABORATIONS, CONTACT US AT{" "}
                     <a
-                      href="mailto:bareshells@gmail.com"
+                      href="mailto:info@bareshells.com"
                       className="hover:opacity-50 transition-opacity"
                     >
-                      BARESHELLS@GMAIL.COM
+                      info@bareshells.com
                     </a>
                     .
                   </p>
@@ -138,10 +138,10 @@ export default function FAQPage() {
                   <p>
                     EMAIL{" "}
                     <a
-                      href="mailto:bareshells@gmail.com"
+                      href="mailto:info@bareshells.com"
                       className="hover:opacity-50 transition-opacity"
                     >
-                      BARESHELLS@GMAIL.COM
+                      info@bareshells.com
                     </a>{" "}
                     AND FOLLOW US ON{" "}
                     <a

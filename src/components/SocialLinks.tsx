@@ -11,7 +11,7 @@ const socialLinks: SocialLink[] = [
     isExternal: true,
   },
   { name: "FAQ", url: "/faq", isExternal: false },
-  { name: "Contact us", url: "mailto:bareshells@gmail.com", isExternal: true },
+  { name: "Contact us", url: "mailto:info@bareshells.com", isExternal: true },
 ];
 
 export default function SocialLinks() {
