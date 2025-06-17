@@ -1,7 +1,6 @@
 "use client";
 
 import NavBar from "@/components/NavBar";
-import SocialLinks from "@/components/SocialLinks";
 import { useEffect, useRef, useState } from "react";
 
 interface AccordionProps {
@@ -159,10 +158,6 @@ export default function FAQPage() {
               </Accordion>
             </div>
           </div>
-        </div>
-
-        <div className="mt-auto">
-          <SocialLinks />
         </div>
       </div>
     </main>

@@ -35,8 +35,11 @@ export default function NavBar({ isSticky = false }) {
   const menuItems = [
     { label: "HOME", href: "/" },
     // { label: "EXHIBITIONS", href: "/exhibitions" },
-    { label: "COLLECTIONS", href: "/collections" },
+    // { label: "COLLECTIONS", href: "/collections" },
     // { label: "SHOP", href: "/shop" },
+    { label: "INSTAGRAM", href: "http://instagram.com/bareshells" },
+    { label: "CONTACT", href: "mailto:info@bareshells.com" },
+    { label: "FAQ", href: "/faq" },
   ];
 
   return (
@@ -68,7 +71,7 @@ export default function NavBar({ isSticky = false }) {
           {/* Desktop horizontal menu - hidden on mobile */}
           <div
             className={`hidden md:flex flex-row gap-6 transition-all duration-300 ease-in-out overflow-hidden ${
-              menuExpanded ? "max-w-[400px] opacity-100" : "max-w-0 opacity-0"
+              menuExpanded ? "max-w-[600px] opacity-100" : "max-w-0 opacity-0"
             }`}
           >
             {menuItems.map((item) => (
