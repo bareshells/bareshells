@@ -7,10 +7,6 @@ export const metadata: Metadata = {
   description:
     "Bareshells is a design studio dedicated to crafting refined furniture and objects.",
   viewport: "width=device-width, initial-scale=1, viewport-fit=cover",
-  icons: {
-    icon: [{ url: "/favicon.png" }],
-    apple: [{ url: "/favicon.png" }],
-  },
   openGraph: {
     title: "Bareshells",
     description:
