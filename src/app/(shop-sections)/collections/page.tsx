@@ -5,41 +5,79 @@ import { images } from "@/data/images";
 import Image from "next/image";
 import { useCallback, useEffect, useRef } from "react";
 
+// Pre-compute image pairs outside the component
+const imagePairs = images.reduce((pairs, image, index) => {
+  if (index % 2 === 0) {
+    pairs.push([image]);
+  } else {
+    pairs[pairs.length - 1].push(image);
+  }
+  return pairs;
+}, [] as (typeof images)[]);
+
 export default function CollectionsPage() {
-  const sectionRefs = useRef<(HTMLElement | null)[]>([]);
+  // Initialize refs array with the correct length based on view type
+  const mobileRefs = useRef<(HTMLElement | null)[]>([]);
+  const desktopRefs = useRef<(HTMLElement | null)[]>([]);
 
   useEffect(() => {
-    sectionRefs.current = Array(images.length).fill(null);
+    mobileRefs.current = new Array(images.length).fill(null);
+    desktopRefs.current = new Array(imagePairs.length).fill(null);
   }, []);
 
-  const handleSectionClick = useCallback(
-    (e: React.MouseEvent<HTMLElement>, sectionIndex: number) => {
+  const handleMobileClick = useCallback(
+    (e: React.MouseEvent<HTMLElement>, index: number) => {
       const clickY = e.nativeEvent.clientY;
       const windowHeight = window.innerHeight;
       const isTopHalf = clickY < windowHeight / 2;
 
       let targetSection;
-
-      if (isTopHalf && sectionIndex > 0) {
-        // Go to previous section when clicking top half
-        targetSection = sectionRefs.current[sectionIndex - 1];
-      } else if (!isTopHalf && sectionIndex < sectionRefs.current.length - 1) {
-        // Go to next section when clicking bottom half
-        targetSection = sectionRefs.current[sectionIndex + 1];
+      if (isTopHalf && index > 0) {
+        targetSection = mobileRefs.current[index - 1];
+      } else if (!isTopHalf && index < mobileRefs.current.length - 1) {
+        targetSection = mobileRefs.current[index + 1];
       }
 
-      if (targetSection) {
-        targetSection.scrollIntoView({ behavior: "smooth" });
+      targetSection?.scrollIntoView({ behavior: "smooth" });
+    },
+    []
+  );
+
+  const handleDesktopClick = useCallback(
+    (e: React.MouseEvent<HTMLElement>, index: number) => {
+      const clickY = e.nativeEvent.clientY;
+      const windowHeight = window.innerHeight;
+      const isTopHalf = clickY < windowHeight / 2;
+
+      let targetSection;
+      if (isTopHalf && index > 0) {
+        targetSection = desktopRefs.current[index - 1];
+      } else if (!isTopHalf && index < desktopRefs.current.length - 1) {
+        targetSection = desktopRefs.current[index + 1];
+      }
+
+      targetSection?.scrollIntoView({ behavior: "smooth" });
+    },
+    []
+  );
+
+  const setMobileRef = useCallback(
+    (index: number) => (el: HTMLElement | null) => {
+      if (mobileRefs.current) {
+        mobileRefs.current[index] = el;
       }
     },
     []
   );
 
-  // Group images into pairs for desktop layout
-  const imagePairs = [];
-  for (let i = 0; i < images.length; i += 2) {
-    imagePairs.push(images.slice(i, i + 2));
-  }
+  const setDesktopRef = useCallback(
+    (index: number) => (el: HTMLElement | null) => {
+      if (desktopRefs.current) {
+        desktopRefs.current[index] = el;
+      }
+    },
+    []
+  );
 
   return (
     <main className="relative min-h-[100dvh] w-full overflow-x-hidden flex flex-col">
@@ -59,10 +97,8 @@ export default function CollectionsPage() {
           {images.map((image, index) => (
             <section
               key={image.src}
-              ref={(el) => {
-                sectionRefs.current[index] = el;
-              }}
-              onClick={(e) => handleSectionClick(e, index)}
+              ref={setMobileRef(index)}
+              onClick={(e) => handleMobileClick(e, index)}
               className="h-[94dvh] w-full snap-start flex items-center justify-center p-4 cursor-pointer"
             >
               <div className="w-full max-w-lg flex items-center justify-center relative h-[80vh]">
@@ -86,10 +122,8 @@ export default function CollectionsPage() {
           {imagePairs.map((pair, pairIndex) => (
             <section
               key={pair[0].src}
-              ref={(el) => {
-                sectionRefs.current[pairIndex] = el;
-              }}
-              onClick={(e) => handleSectionClick(e, pairIndex)}
+              ref={setDesktopRef(pairIndex)}
+              onClick={(e) => handleDesktopClick(e, pairIndex)}
               className="h-[94dvh] w-full snap-start flex items-center justify-center p-4 cursor-pointer"
             >
               <div className="flex flex-row min-w-[768px] md:max-w-2xl h-[80vh]">
