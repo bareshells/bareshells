@@ -19,11 +19,13 @@ export default function FAQPage() {
 
       <div className="flex flex-col flex-grow mt-[42px] md:mt-0">
         <div className="flex-grow flex flex-col justify-center items-center">
-          <div className="w-full max-w-[20.5rem] md:max-w-[768px]">
+          <div className="w-full max-w-[20.5rem] md:max-w-[500px]">
             <div className="space-y-2">
               {faqData.map((faq, index) => (
                 <Accordion key={index} title={faq.title}>
-                  {faq.content}
+                  <div className="font-sans normal-case">
+                    {faq.content}
+                  </div>
                 </Accordion>
               ))}
             </div>
