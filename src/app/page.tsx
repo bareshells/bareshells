@@ -6,12 +6,12 @@ import { useRef } from "react";
 
 const pairs = [
   {
-    images: ["/homepage/chair_exploded.png", "/homepage/chair_side.png"],
-    caption: "Chair, 2025",
-  },
-  {
     images: ["/homepage/stool_exploded.png", "/homepage/stool_side.png"],
     caption: "Stool, 2025",
+  },
+  {
+    images: ["/homepage/chair_exploded.png", "/homepage/chair_side.png"],
+    caption: "Chair, 2025",
   },
   {
     images: ["/homepage/stool_table.png"],
