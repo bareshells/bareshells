@@ -130,7 +130,7 @@ export default function HomePage() {
                       />
                     </div>
                     {imgIndex === pair.images.length - 1 && (
-                      <p className="mt-2 text-xs uppercase tracking-widest text-neutral-500 self-end">
+                      <p className="mt-2 uppercase self-end">
                         {pair.caption}
                       </p>
                     )}

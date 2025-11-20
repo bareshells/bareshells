@@ -63,7 +63,7 @@ export default function NavBar({ isSticky = false }) {
           isSticky ? "bg-transparent" : "bg-white"
         } px-6`}
       >
-        <div className="text-black flex flex-row items-end">
+        <div className="flex flex-row items-end">
           <a
             className="cursor-pointer hover:opacity-50 transition-opacity mr-8 flex items-center"
             onClick={handleMenuClick}

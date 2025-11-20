@@ -47,7 +47,7 @@ export default function MobileDrawer({
         {/* Close button */}
         <button
           onClick={onClose}
-          className="absolute top-5 right-5 text-black p-2 hover:opacity-50 transition-opacity z-50"
+          className="absolute top-5 right-5 p-2 hover:opacity-50 transition-opacity z-50"
           aria-label="Close menu"
         >
           <svg
