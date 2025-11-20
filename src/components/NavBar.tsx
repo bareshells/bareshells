@@ -1,4 +1,7 @@
+"use client";
+
 import Image from "next/image";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import MobileDrawer from "./MobileDrawer";
 
@@ -6,6 +9,8 @@ export default function NavBar({ isSticky = false }) {
   const [menuExpanded, setMenuExpanded] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const pathname = usePathname();
+  const router = useRouter();
 
   // Check if viewport is mobile
   useEffect(() => {
@@ -32,13 +37,22 @@ export default function NavBar({ isSticky = false }) {
     }
   };
 
+  // Handle logo click
+  const handleLogoClick = () => {
+    if (pathname === "/" || pathname === "") {
+      // Find the main scrollable container and scroll to top
+      const mainElement = document.querySelector("main");
+      if (mainElement) {
+        mainElement.scrollTo({ top: 0, behavior: "smooth" });
+      }
+    } else {
+      router.push("/");
+    }
+  };
+
   const menuItems = [
-    { label: "HOME", href: "/" },
-    // { label: "EXHIBITIONS", href: "/exhibitions" },
-    // { label: "COLLECTIONS", href: "/collections" },
-    // { label: "SHOP", href: "/shop" },
-    { label: "INSTAGRAM", href: "http://instagram.com/bareshells" },
-    { label: "CONTACT", href: "mailto:info@bareshells.com" },
+    { label: "INSTAGRAM", href: "https://instagram.com/bareshells" },
+    { label: "INQUIRE", href: "mailto:info@bareshells.com" },
     { label: "FAQ", href: "/faq" },
   ];
 
@@ -49,7 +63,7 @@ export default function NavBar({ isSticky = false }) {
           isSticky ? "bg-transparent" : "bg-white"
         } px-6`}
       >
-        <div className="text-black flex flex-row items-end  ">
+        <div className="text-black flex flex-row items-end">
           <a
             className="cursor-pointer hover:opacity-50 transition-opacity mr-8 flex items-center"
             onClick={handleMenuClick}
@@ -78,6 +92,8 @@ export default function NavBar({ isSticky = false }) {
               <a
                 key={item.label}
                 href={item.href}
+                target={item.href.startsWith("http") ? "_blank" : undefined}
+                rel={item.href.startsWith("http") ? "noopener noreferrer" : undefined}
                 className="whitespace-nowrap cursor-pointer hover:opacity-50 transition-opacity"
               >
                 {item.label}
@@ -85,15 +101,14 @@ export default function NavBar({ isSticky = false }) {
             ))}
           </div>
         </div>
-        {/* <Link href="/">
-          <Image
-            src="/bareshells.svg"
-            alt="BARESHELLS"
-            width={100}
-            height={16}
-            className="w-auto h-3 object-contain mb-0.5"
-          />
-        </Link> */}
+
+        {/* BARESHELLS logo on the right */}
+        <button
+          onClick={handleLogoClick}
+          className="cursor-pointer hover:opacity-50 transition-opacity"
+        >
+          BARESHELLS
+        </button>
       </div>
 
       {/* Mobile drawer */}

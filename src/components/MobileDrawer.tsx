@@ -40,7 +40,7 @@ export default function MobileDrawer({
 
       {/* Drawer */}
       <div
-        className={`fixed top-0 left-0 h-[100dvh] w-screen max-w-[320px] bg-white z-50 transform transition-transform duration-300 ease-in-out flex flex-col pb-safe ${
+        className={`fixed top-0 left-0 h-[100dvh] w-screen max-w-[100vw] bg-white z-50 transform transition-transform duration-300 ease-in-out flex flex-col pb-safe ${
           isOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
@@ -72,7 +72,7 @@ export default function MobileDrawer({
           </svg>
         </button>
 
-        <div className="flex flex-col p-8 gap-8   mt-16 overflow-y-auto">
+        <div className="flex flex-col p-8 gap-8 mt-16 overflow-y-auto">
           {menuItems.map((item) => (
             <a
               key={item.label}
