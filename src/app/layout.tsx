@@ -5,12 +5,12 @@ export const metadata: Metadata = {
   title: "Bareshells",
   applicationName: "Bareshells",
   description:
-    "",
+    "info@bareshells.com",
   viewport: "width=device-width, initial-scale=1, viewport-fit=cover",
   openGraph: {
     title: "Bareshells",
     description:
-      "",
+      "info@bareshells.com",
     url: "https://bareshells.com", // your real domain here
     siteName: "Bareshells",
     type: "website",
