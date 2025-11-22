@@ -51,17 +51,16 @@ export default function NavBar({ isSticky = false }) {
   };
 
   const menuItems = [
+    { label: "FAQ", href: "/faq" },
     { label: "INSTAGRAM", href: "https://instagram.com/bareshells" },
     { label: "INQUIRE", href: "mailto:info@bareshells.com" },
-    { label: "FAQ", href: "/faq" },
   ];
 
   return (
     <>
       <div
-        className={`flex justify-between items-center p-3 ${
-          isSticky ? "bg-transparent" : "bg-white"
-        } px-6`}
+        className={`flex justify-between items-center p-3 ${isSticky ? "bg-white" : "bg-white"
+          } px-6`}
       >
         <div className="flex flex-row items-end">
           <a
@@ -84,9 +83,8 @@ export default function NavBar({ isSticky = false }) {
 
           {/* Desktop horizontal menu - hidden on mobile */}
           <div
-            className={`hidden md:flex flex-row gap-6 transition-all duration-300 ease-in-out overflow-hidden ${
-              menuExpanded ? "max-w-[600px] opacity-100" : "max-w-0 opacity-0"
-            }`}
+            className={`hidden md:flex flex-row gap-6 transition-all duration-300 ease-in-out overflow-hidden ${menuExpanded ? "max-w-[600px] opacity-100" : "max-w-0 opacity-0"
+              }`}
           >
             {menuItems.map((item) => (
               <a

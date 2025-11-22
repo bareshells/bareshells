@@ -2,48 +2,50 @@
 
 import NavBar from "@/components/NavBar";
 import Image from "next/image";
-import { useRef } from "react";
+import { useRef, useState, useEffect, useMemo } from "react";
+import ContentsPage from "@/components/ContentsPage";
+import MobileJumpMenu from "@/components/MobileJumpMenu";
 
 const pairs = [
   {
     images: ["/homepage/stool_exploded.png", "/homepage/stool_side.png"],
-    caption: "Stool, 2025",
+    caption: "2025",
   },
   {
     images: ["/homepage/chair_exploded.png", "/homepage/chair_side.png"],
-    caption: "Chair, 2025",
+    caption: "2025",
   },
   {
     images: ["/homepage/stool_table.png"],
-    caption: "Concept dining, 2025",
+    caption: "2025",
   },
   {
     images: ["/homepage/pot_side.png", "/homepage/pot_pour.png"],
-    caption: "Pot, 2025",
+    caption: "2025",
   },
   {
     images: ["/homepage/pot_exploded.png", "/homepage/pot_top.png"],
-    caption: "Pot, 2025",
+    caption: "2025",
   },
   {
     images: ["/homepage/maann_payu1.jpg", "/homepage/maann_payu3.jpg"],
-    caption: "Fold, 2025",
+    caption: "2025",
   },
   {
     images: ["/homepage/maann_payu2.jpg", "/homepage/maann_payu4.png"],
-    caption: "Fold, 2025",
+    caption: "2025",
   },
   {
     images: ["/homepage/3fold.jpg", "/homepage/1fold.jpg"],
-    caption: "Fold, 2025",
+    caption: "2025",
   },
   {
     images: ["/homepage/beech_skin1.jpg", "/homepage/beech_skin2.jpg"],
-    caption: "Beech, 2024",
+    caption: "2024",
   },
   {
     images: ["/homepage/beech_angle.jpg", "/homepage/beech_face.jpg"],
-    caption: "Beech, 2024",
+    caption: "2024",
   },
 ];
 
@@ -60,6 +62,34 @@ const allItems = pairs.flatMap((pair) =>
 
 export default function HomePage() {
   const mainRef = useRef<HTMLElement>(null);
+  const [activeYear, setActiveYear] = useState<string>("");
+
+  // Extract unique years for the menu
+  const years = useMemo(() => {
+    const uniqueYears = new Set<string>();
+    pairs.forEach((pair) => {
+      const match = pair.caption.match(/(\d{4})$/);
+      if (match) {
+        uniqueYears.add(match[1]);
+      }
+    });
+    return Array.from(uniqueYears).sort((a, b) => b.localeCompare(a));
+  }, []);
+
+  const scrollToYear = (year: string, items: { caption: string }[]) => {
+    if (!mainRef.current) return;
+
+    // Find index of first item with this year
+    const index = items.findIndex(item => item.caption.includes(year));
+
+    if (index !== -1) {
+      const viewportHeight = mainRef.current.clientHeight;
+      mainRef.current.scrollTo({
+        top: index * viewportHeight,
+        behavior: "smooth",
+      });
+    }
+  };
 
   const handleClick = (e: React.MouseEvent<HTMLElement>) => {
     if (!mainRef.current) return;
@@ -72,6 +102,10 @@ export default function HomePage() {
     const viewportHeight = mainRef.current.clientHeight;
     const currentIndex = Math.round(currentScroll / viewportHeight);
 
+    // Determine total items based on viewport width (mobile vs desktop)
+    const isMobile = window.innerWidth < 768;
+    const totalItems = isMobile ? allItems.length : pairs.length;
+
     if (clickY < halfHeight) {
       // Top half - go to previous
       const prevIndex = Math.max(0, currentIndex - 1);
@@ -81,7 +115,7 @@ export default function HomePage() {
       });
     } else {
       // Bottom half - go to next
-      const maxIndex = window.innerWidth < 768 ? allItems.length - 1 : pairs.length - 1;
+      const maxIndex = totalItems - 1;
       const nextIndex = Math.min(maxIndex, currentIndex + 1);
       mainRef.current.scrollTo({
         top: nextIndex * viewportHeight,
@@ -90,22 +124,76 @@ export default function HomePage() {
     }
   };
 
+  // Track active year on scroll
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!mainRef.current) return;
+
+      const currentScroll = mainRef.current.scrollTop;
+      const viewportHeight = mainRef.current.clientHeight;
+      const currentIndex = Math.round(currentScroll / viewportHeight);
+      const isMobile = window.innerWidth < 768;
+
+      let currentItem;
+      if (isMobile) {
+        currentItem = allItems[currentIndex];
+      } else {
+        currentItem = pairs[currentIndex];
+      }
+
+      if (currentItem) {
+        const match = currentItem.caption.match(/(\d{4})$/);
+        if (match) {
+          setActiveYear(match[1]);
+        }
+      }
+    };
+
+    const mainElement = mainRef.current;
+    if (mainElement) {
+      mainElement.addEventListener("scroll", handleScroll);
+      // Initial check
+      handleScroll();
+    }
+
+    return () => {
+      if (mainElement) {
+        mainElement.removeEventListener("scroll", handleScroll);
+      }
+    };
+  }, []);
+
   return (
     <>
       <div className="fixed top-0 left-0 w-full z-50 bg-white/90 backdrop-blur-sm">
         <NavBar isSticky={true} />
       </div>
+
+      {/* Sidebar - Desktop only */}
+      <ContentsPage
+        items={pairs}
+        onYearSelect={(year) => scrollToYear(year, pairs)}
+        activeYear={activeYear}
+      />
+
+      {/* Mobile Jump Menu */}
+      <MobileJumpMenu
+        years={years}
+        activeYear={activeYear}
+        onYearSelect={(year) => scrollToYear(year, allItems)}
+      />
+
       <main
         ref={mainRef}
         onClick={handleClick}
-        className="h-screen w-full overflow-y-scroll snap-y snap-mandatory no-scrollbar bg-white scroll-smooth cursor-pointer"
+        className="h-dvh w-full overflow-y-scroll snap-y snap-mandatory no-scrollbar bg-white scroll-smooth cursor-pointer"
       >
         {/* Desktop view - pairs */}
-        <div className="hidden md:block">
+        <div className="hidden md:block landscape:block">
           {pairs.map((pair, index) => (
             <section
               key={index}
-              className="h-screen w-full snap-center flex flex-col items-center justify-center p-8"
+              className="h-dvh w-full snap-center flex flex-col items-center justify-center p-8"
             >
               <div className="flex flex-row items-start justify-center gap-4 w-full relative">
                 {pair.images.map((imageSrc, imgIndex) => (
@@ -113,7 +201,7 @@ export default function HomePage() {
                     key={imgIndex}
                     className="flex flex-col items-center justify-center max-w-full"
                   >
-                    <div className="relative w-full max-h-[80vh]">
+                    <div className="relative w-full max-h-[80dvh]">
                       <Image
                         src={imageSrc}
                         alt={`${pair.caption} ${imgIndex + 1}`}
@@ -121,8 +209,8 @@ export default function HomePage() {
                         height={800}
                         className={
                           pair.images.length === 1
-                            ? "min-w-[600px] max-w-[1200px] w-[60vw] h-auto"
-                            : "min-w-[300px] max-w-[600px] w-[30vw] h-auto"
+                            ? "max-h-[80dvh] w-auto object-contain md:min-w-[600px] md:max-w-[1200px] md:w-[60vw] md:h-auto landscape:min-w-0 landscape:w-auto landscape:max-w-full landscape:max-h-[60dvh]"
+                            : "max-h-[80dvh] w-auto object-contain md:min-w-[300px] md:max-w-[600px] md:w-[30vw] md:h-auto landscape:min-w-0 landscape:w-auto landscape:max-w-full landscape:max-h-[60dvh]"
                         }
                         priority={index < 3}
                         quality={75}
@@ -142,11 +230,11 @@ export default function HomePage() {
         </div>
 
         {/* Mobile view - individual images */}
-        <div className="md:hidden">
+        <div className="md:hidden landscape:hidden">
           {allItems.map((item, index) => (
             <section
               key={index}
-              className="h-screen w-full snap-center flex flex-col items-center justify-center p-4"
+              className="h-dvh w-full snap-center flex flex-col items-center justify-center p-4"
             >
               <div className="flex items-center justify-center w-full h-full">
                 <div className="relative w-full h-full flex items-center justify-center">
@@ -155,7 +243,7 @@ export default function HomePage() {
                     alt={`${item.caption} ${item.pairIndex + 1}`}
                     width={800}
                     height={800}
-                    className="max-w-full max-h-[85vh] w-auto h-auto object-contain"
+                    className="max-w-full max-h-[85dvh] w-auto h-auto object-contain"
                     priority={index < 3}
                     quality={75}
                     sizes="100vw"

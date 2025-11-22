@@ -1,6 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
 @font-face {
   font-family: "Chanel";
   src: url("/fonts/chanel_extralight.ttf");
@@ -25,4 +26,15 @@ body {
   padding-bottom: var(--sab);
   font-size: 11px;
   text-transform: uppercase;
+}
+
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
 }
