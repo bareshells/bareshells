@@ -1,17 +1,20 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+};
 
 export const metadata: Metadata = {
   title: "Bareshells",
   applicationName: "Bareshells",
-  description:
-    "info@bareshells.com",
-  viewport: "width=device-width, initial-scale=1, viewport-fit=cover",
+  description: "info@bareshells.com",
   openGraph: {
     title: "Bareshells",
-    description:
-      "info@bareshells.com",
-    url: "https://bareshells.com", // your real domain here
+    description: "info@bareshells.com",
+    url: "https://bareshells.com",
     siteName: "Bareshells",
     type: "website",
   },

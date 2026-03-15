@@ -2,15 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
-@font-face {
-  font-family: "Chanel";
-  src: url("/fonts/chanel_extralight.ttf");
-}
-
 :root {
   --background: #ffffff;
   --foreground: #171717;
-  --font-chanel: "Chanel", sans-serif;
 
   /* Default fallback values for safe area insets */
   --sat: env(safe-area-inset-top, 0px);
@@ -22,10 +16,8 @@
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: var(--font-chanel);
   padding-bottom: var(--sab);
   font-size: 11px;
-  text-transform: uppercase;
 }
 
 @layer utilities {

@@ -51,27 +51,26 @@ const pairs = [
 
 // Flatten pairs into individual items for mobile navigation
 const allItems = pairs.flatMap((pair) =>
-  pair.images.map((image, idx) => ({
+  pair.images.map((image) => ({
     src: image,
     caption: pair.caption,
-    isPair: pair.images.length > 1,
-    pairIndex: idx,
-    totalInPair: pair.images.length,
   }))
 );
 
 export default function HomePage() {
   const mainRef = useRef<HTMLElement>(null);
   const [activeYear, setActiveYear] = useState<string>("");
+  const [imageBottom, setImageBottom] = useState<number>(0);
+  const [imageTop, setImageTop] = useState<number>(0);
+  const [mobileImageBottom, setMobileImageBottom] = useState<number>(0);
+  const [mobileImageTop, setMobileImageTop] = useState<number>(0);
+  const [drawerOpen, setDrawerOpen] = useState(false);
 
   // Extract unique years for the menu
   const years = useMemo(() => {
     const uniqueYears = new Set<string>();
     pairs.forEach((pair) => {
-      const match = pair.caption.match(/(\d{4})$/);
-      if (match) {
-        uniqueYears.add(match[1]);
-      }
+      uniqueYears.add(pair.caption);
     });
     return Array.from(uniqueYears).sort((a, b) => b.localeCompare(a));
   }, []);
@@ -79,8 +78,7 @@ export default function HomePage() {
   const scrollToYear = (year: string, items: { caption: string }[]) => {
     if (!mainRef.current) return;
 
-    // Find index of first item with this year
-    const index = items.findIndex(item => item.caption.includes(year));
+    const index = items.findIndex((item) => item.caption === year);
 
     if (index !== -1) {
       const viewportHeight = mainRef.current.clientHeight;
@@ -102,19 +100,16 @@ export default function HomePage() {
     const viewportHeight = mainRef.current.clientHeight;
     const currentIndex = Math.round(currentScroll / viewportHeight);
 
-    // Determine total items based on viewport width (mobile vs desktop)
     const isMobile = window.innerWidth < 768;
     const totalItems = isMobile ? allItems.length : pairs.length;
 
     if (clickY < halfHeight) {
-      // Top half - go to previous
       const prevIndex = Math.max(0, currentIndex - 1);
       mainRef.current.scrollTo({
         top: prevIndex * viewportHeight,
         behavior: "smooth",
       });
     } else {
-      // Bottom half - go to next
       const maxIndex = totalItems - 1;
       const nextIndex = Math.min(maxIndex, currentIndex + 1);
       mainRef.current.scrollTo({
@@ -126,6 +121,40 @@ export default function HomePage() {
 
   // Track active year on scroll
   useEffect(() => {
+    let imageBottomTimer: ReturnType<typeof setTimeout>;
+
+    const measureImageBounds = () => {
+      if (!mainRef.current) return;
+      const currentScroll = mainRef.current.scrollTop;
+      const viewportHeight = mainRef.current.clientHeight;
+      const currentIndex = Math.round(currentScroll / viewportHeight);
+      const isMobile = window.innerWidth < 768;
+
+      const selector = isMobile ? "[data-mobile]" : "[data-desktop]";
+      const container = mainRef.current.querySelector(selector);
+      const sections = container
+        ? container.querySelectorAll("section")
+        : [];
+      const currentSection = sections[currentIndex];
+      if (currentSection) {
+        const images = currentSection.querySelectorAll("img");
+        let maxBottom = 0;
+        let minTop = Infinity;
+        images.forEach((img) => {
+          const rect = img.getBoundingClientRect();
+          maxBottom = Math.max(maxBottom, rect.bottom);
+          minTop = Math.min(minTop, rect.top);
+        });
+        if (isMobile) {
+          setMobileImageBottom(maxBottom);
+          setMobileImageTop(minTop === Infinity ? 0 : minTop);
+        } else {
+          setImageBottom(maxBottom);
+          setImageTop(minTop === Infinity ? 0 : minTop);
+        }
+      }
+    };
+
     const handleScroll = () => {
       if (!mainRef.current) return;
 
@@ -134,54 +163,59 @@ export default function HomePage() {
       const currentIndex = Math.round(currentScroll / viewportHeight);
       const isMobile = window.innerWidth < 768;
 
-      let currentItem;
-      if (isMobile) {
-        currentItem = allItems[currentIndex];
-      } else {
-        currentItem = pairs[currentIndex];
-      }
+      const currentItem = isMobile
+        ? allItems[currentIndex]
+        : pairs[currentIndex];
 
       if (currentItem) {
-        const match = currentItem.caption.match(/(\d{4})$/);
-        if (match) {
-          setActiveYear(match[1]);
-        }
+        setActiveYear(currentItem.caption);
       }
+
+      // Debounce image bounds measurement to only fire once scroll settles
+      clearTimeout(imageBottomTimer);
+      imageBottomTimer = setTimeout(measureImageBounds, 100);
     };
 
     const mainElement = mainRef.current;
     if (mainElement) {
       mainElement.addEventListener("scroll", handleScroll);
-      // Initial check
       handleScroll();
+      measureImageBounds();
     }
 
     return () => {
       if (mainElement) {
         mainElement.removeEventListener("scroll", handleScroll);
       }
+      clearTimeout(imageBottomTimer);
     };
   }, []);
 
   return (
     <>
       <div className="fixed top-0 left-0 w-full z-50 bg-white/90 backdrop-blur-sm">
-        <NavBar isSticky={true} />
+        <NavBar onDrawerChange={setDrawerOpen} />
       </div>
 
-      {/* Sidebar - Desktop only */}
+      {/* Desktop date bar */}
       <ContentsPage
-        items={pairs}
+        years={years}
         onYearSelect={(year) => scrollToYear(year, pairs)}
         activeYear={activeYear}
+        imageBottom={imageBottom}
+        imageTop={imageTop}
       />
 
-      {/* Mobile Jump Menu */}
-      <MobileJumpMenu
-        years={years}
-        activeYear={activeYear}
-        onYearSelect={(year) => scrollToYear(year, allItems)}
-      />
+      {/* Mobile date bar - hidden when drawer is open */}
+      {!drawerOpen && (
+        <MobileJumpMenu
+          years={years}
+          activeYear={activeYear}
+          onYearSelect={(year) => scrollToYear(year, allItems)}
+          imageTop={mobileImageTop}
+          imageBottom={mobileImageBottom}
+        />
+      )}
 
       <main
         ref={mainRef}
@@ -189,7 +223,7 @@ export default function HomePage() {
         className="h-dvh w-full overflow-y-scroll snap-y snap-mandatory no-scrollbar bg-white scroll-smooth cursor-pointer"
       >
         {/* Desktop view - pairs */}
-        <div className="hidden md:block landscape:block">
+        <div data-desktop className="hidden md:block landscape:block">
           {pairs.map((pair, index) => (
             <section
               key={index}
@@ -230,7 +264,7 @@ export default function HomePage() {
         </div>
 
         {/* Mobile view - individual images */}
-        <div className="md:hidden landscape:hidden">
+        <div data-mobile className="md:hidden landscape:hidden">
           {allItems.map((item, index) => (
             <section
               key={index}
@@ -240,7 +274,7 @@ export default function HomePage() {
                 <div className="relative w-full h-full flex items-center justify-center">
                   <Image
                     src={item.src}
-                    alt={`${item.caption} ${item.pairIndex + 1}`}
+                    alt={`${item.caption}`}
                     width={800}
                     height={800}
                     className="max-w-full max-h-[85dvh] w-auto h-auto object-contain"

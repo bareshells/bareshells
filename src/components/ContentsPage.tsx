@@ -1,42 +1,54 @@
 "use client";
 
-import { useMemo } from "react";
-
 interface ContentsPageProps {
-    items: { caption: string }[];
-    onYearSelect: (year: string) => void;
-    activeYear?: string;
+  years: string[];
+  onYearSelect: (year: string) => void;
+  activeYear?: string;
+  imageBottom?: number;
+  imageTop?: number;
 }
 
-export default function ContentsPage({ items, onYearSelect, activeYear }: ContentsPageProps) {
-    const years = useMemo(() => {
-        const uniqueYears = new Set<string>();
-        items.forEach((item) => {
-            const match = item.caption.match(/(\d{4})$/);
-            if (match) {
-                uniqueYears.add(match[1]);
-            }
-        });
-        return Array.from(uniqueYears).sort((a, b) => b.localeCompare(a));
-    }, [items]);
+export default function ContentsPage({
+  years,
+  onYearSelect,
+  activeYear,
+  imageBottom = 0,
+  imageTop = 0,
+}: ContentsPageProps) {
+  return (
+    <>
+      {/* Top bar */}
+      {imageTop > 0 && (
+        <div
+          className="fixed top-0 left-0 w-full bg-white z-40 hidden md:block landscape:block"
+          style={{ height: `${imageTop}px` }}
+        />
+      )}
 
-    return (
-        <div className="fixed left-8 top-1/2 -translate-y-1/2 z-40 hidden md:flex landscape:flex flex-col gap-4">
-            <div className="flex flex-col gap-2">
-                {years.map((year) => (
-                    <button
-                        key={year}
-                        onClick={(e) => {
-                            e.stopPropagation();
-                            onYearSelect(year);
-                        }}
-                        className={`text-left hover:opacity-50 transition-opacity cursor-pointer tracking-wider ${activeYear === year ? "text-gray-400" : "text-black"
-                            }`}
-                    >
-                        {year}
-                    </button>
-                ))}
-            </div>
-        </div>
-    );
+      {/* Bottom bar with years */}
+      <div
+        className="z-40 hidden md:flex landscape:flex flex-row items-center justify-center gap-6 transition-all duration-300 fixed left-0 w-full px-6 bg-white"
+        style={
+          imageBottom > 0
+            ? { top: `${imageBottom}px`, bottom: "0" }
+            : { bottom: "0", height: "40px" }
+        }
+      >
+        {years.map((year) => (
+          <button
+            key={year}
+            onClick={(e) => {
+              e.stopPropagation();
+              onYearSelect(year);
+            }}
+            className={`hover:opacity-50 transition-opacity cursor-pointer tracking-wider font-sans ${
+              activeYear === year ? "text-gray-400" : "text-black"
+            }`}
+          >
+            {year}
+          </button>
+        ))}
+      </div>
+    </>
+  );
 }

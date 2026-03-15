@@ -24,7 +24,7 @@ export default function Accordion({ title, children }: AccordionProps) {
         onClick={() => setIsOpen(!isOpen)}
         className="w-full py-4 text-left cursor-pointer hover:opacity-50 transition-opacity relative"
       >
-        <h3 className="pr-8">{title}</h3>
+        <h3 className="pr-8 font-sans">{title}</h3>
         <span
           className={`absolute right-0 top-1/2 -translate-y-1/2 transition-transform duration-300 ${
             isOpen ? "rotate-180" : ""

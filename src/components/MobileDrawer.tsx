@@ -1,4 +1,7 @@
+"use client";
+
 import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 interface MenuItem {
   label: string;
@@ -16,6 +19,8 @@ export default function MobileDrawer({
   onClose,
   menuItems,
 }: MobileDrawerProps) {
+  const router = useRouter();
+
   // Prevent scrolling when drawer is open
   useEffect(() => {
     if (isOpen) {
@@ -28,11 +33,20 @@ export default function MobileDrawer({
     };
   }, [isOpen]);
 
+  const handleNavigation = (href: string) => {
+    onClose();
+    if (href.startsWith("http") || href.startsWith("mailto:")) {
+      window.location.href = href;
+    } else {
+      router.push(href);
+    }
+  };
+
   return (
     <>
       {/* Backdrop */}
       <div
-        className={`fixed inset-0 h-screen w-screen bg-black/50 z-50 transition-opacity duration-300 ${
+        className={`fixed inset-0 h-screen w-screen bg-black/50 z-[60] transition-opacity duration-300 ${
           isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
         }`}
         onClick={onClose}
@@ -40,7 +54,7 @@ export default function MobileDrawer({
 
       {/* Drawer */}
       <div
-        className={`fixed top-0 left-0 h-[100dvh] w-screen max-w-[100vw] bg-white z-50 transform transition-transform duration-300 ease-in-out flex flex-col pb-safe ${
+        className={`fixed top-0 left-0 h-[100dvh] w-screen max-w-[100vw] bg-white z-[60] transform transition-transform duration-300 ease-in-out flex flex-col pb-safe ${
           isOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
@@ -77,11 +91,10 @@ export default function MobileDrawer({
             <a
               key={item.label}
               href={item.href}
-              className="cursor-pointer hover:opacity-50 transition-opacity"
+              className="cursor-pointer hover:opacity-50 transition-opacity font-sans"
               onClick={(e) => {
                 e.preventDefault();
-                onClose();
-                window.location.href = item.href;
+                handleNavigation(item.href);
               }}
             >
               {item.label}
