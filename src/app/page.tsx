@@ -2,7 +2,7 @@
 
 import NavBar from "@/components/NavBar";
 import Image from "next/image";
-import { useRef, useState, useEffect, useMemo } from "react";
+import { useRef, useState, useEffect, useMemo, useCallback } from "react";
 import ContentsPage from "@/components/ContentsPage";
 import MobileJumpMenu from "@/components/MobileJumpMenu";
 
@@ -60,34 +60,37 @@ const allItems = pairs.flatMap((pair) =>
 export default function HomePage() {
   const mainRef = useRef<HTMLElement>(null);
   const [activeYear, setActiveYear] = useState<string>("");
-  const [imageBottom, setImageBottom] = useState<number>(0);
-  const [imageTop, setImageTop] = useState<number>(0);
-  const [mobileImageBottom, setMobileImageBottom] = useState<number>(0);
-  const [mobileImageTop, setMobileImageTop] = useState<number>(0);
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
-  // Extract unique years for the menu
+  // Track viewport size — only render one view at a time
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
+
   const years = useMemo(() => {
     const uniqueYears = new Set<string>();
-    pairs.forEach((pair) => {
-      uniqueYears.add(pair.caption);
-    });
+    pairs.forEach((pair) => uniqueYears.add(pair.caption));
     return Array.from(uniqueYears).sort((a, b) => b.localeCompare(a));
   }, []);
 
-  const scrollToYear = (year: string, items: { caption: string }[]) => {
-    if (!mainRef.current) return;
-
-    const index = items.findIndex((item) => item.caption === year);
-
-    if (index !== -1) {
-      const viewportHeight = mainRef.current.clientHeight;
-      mainRef.current.scrollTo({
-        top: index * viewportHeight,
-        behavior: "smooth",
-      });
-    }
-  };
+  const scrollToYear = useCallback(
+    (year: string, items: { caption: string }[]) => {
+      if (!mainRef.current) return;
+      const index = items.findIndex((item) => item.caption === year);
+      if (index !== -1) {
+        const viewportHeight = mainRef.current.clientHeight;
+        mainRef.current.scrollTo({
+          top: index * viewportHeight,
+          behavior: "smooth",
+        });
+      }
+    },
+    []
+  );
 
   const handleClick = (e: React.MouseEvent<HTMLElement>) => {
     if (!mainRef.current) return;
@@ -99,8 +102,6 @@ export default function HomePage() {
     const currentScroll = mainRef.current.scrollTop;
     const viewportHeight = mainRef.current.clientHeight;
     const currentIndex = Math.round(currentScroll / viewportHeight);
-
-    const isMobile = window.innerWidth < 768;
     const totalItems = isMobile ? allItems.length : pairs.length;
 
     if (clickY < halfHeight) {
@@ -110,8 +111,7 @@ export default function HomePage() {
         behavior: "smooth",
       });
     } else {
-      const maxIndex = totalItems - 1;
-      const nextIndex = Math.min(maxIndex, currentIndex + 1);
+      const nextIndex = Math.min(totalItems - 1, currentIndex + 1);
       mainRef.current.scrollTo({
         top: nextIndex * viewportHeight,
         behavior: "smooth",
@@ -121,75 +121,40 @@ export default function HomePage() {
 
   // Track active year on scroll
   useEffect(() => {
-    let imageBottomTimer: ReturnType<typeof setTimeout>;
-
-    const measureImageBounds = () => {
-      if (!mainRef.current) return;
-      const currentScroll = mainRef.current.scrollTop;
-      const viewportHeight = mainRef.current.clientHeight;
-      const currentIndex = Math.round(currentScroll / viewportHeight);
-      const isMobile = window.innerWidth < 768;
-
-      const selector = isMobile ? "[data-mobile]" : "[data-desktop]";
-      const container = mainRef.current.querySelector(selector);
-      const sections = container
-        ? container.querySelectorAll("section")
-        : [];
-      const currentSection = sections[currentIndex];
-      if (currentSection) {
-        const images = currentSection.querySelectorAll("img");
-        let maxBottom = 0;
-        let minTop = Infinity;
-        images.forEach((img) => {
-          const rect = img.getBoundingClientRect();
-          maxBottom = Math.max(maxBottom, rect.bottom);
-          minTop = Math.min(minTop, rect.top);
-        });
-        if (isMobile) {
-          setMobileImageBottom(maxBottom);
-          setMobileImageTop(minTop === Infinity ? 0 : minTop);
-        } else {
-          setImageBottom(maxBottom);
-          setImageTop(minTop === Infinity ? 0 : minTop);
-        }
-      }
-    };
+    let rafId: number;
 
     const handleScroll = () => {
-      if (!mainRef.current) return;
+      cancelAnimationFrame(rafId);
+      rafId = requestAnimationFrame(() => {
+        if (!mainRef.current) return;
 
-      const currentScroll = mainRef.current.scrollTop;
-      const viewportHeight = mainRef.current.clientHeight;
-      const currentIndex = Math.round(currentScroll / viewportHeight);
-      const isMobile = window.innerWidth < 768;
+        const currentScroll = mainRef.current.scrollTop;
+        const viewportHeight = mainRef.current.clientHeight;
+        const currentIndex = Math.round(currentScroll / viewportHeight);
 
-      const currentItem = isMobile
-        ? allItems[currentIndex]
-        : pairs[currentIndex];
+        const currentItem = isMobile
+          ? allItems[currentIndex]
+          : pairs[currentIndex];
 
-      if (currentItem) {
-        setActiveYear(currentItem.caption);
-      }
-
-      // Debounce image bounds measurement to only fire once scroll settles
-      clearTimeout(imageBottomTimer);
-      imageBottomTimer = setTimeout(measureImageBounds, 100);
+        if (currentItem) {
+          setActiveYear(currentItem.caption);
+        }
+      });
     };
 
     const mainElement = mainRef.current;
     if (mainElement) {
-      mainElement.addEventListener("scroll", handleScroll);
+      mainElement.addEventListener("scroll", handleScroll, { passive: true });
       handleScroll();
-      measureImageBounds();
     }
 
     return () => {
       if (mainElement) {
         mainElement.removeEventListener("scroll", handleScroll);
       }
-      clearTimeout(imageBottomTimer);
+      cancelAnimationFrame(rafId);
     };
-  }, []);
+  }, [isMobile]);
 
   return (
     <>
@@ -198,22 +163,20 @@ export default function HomePage() {
       </div>
 
       {/* Desktop date bar */}
-      <ContentsPage
-        years={years}
-        onYearSelect={(year) => scrollToYear(year, pairs)}
-        activeYear={activeYear}
-        imageBottom={imageBottom}
-        imageTop={imageTop}
-      />
+      {!isMobile && (
+        <ContentsPage
+          years={years}
+          onYearSelect={(year) => scrollToYear(year, pairs)}
+          activeYear={activeYear}
+        />
+      )}
 
       {/* Mobile date bar - hidden when drawer is open */}
-      {!drawerOpen && (
+      {isMobile && !drawerOpen && (
         <MobileJumpMenu
           years={years}
           activeYear={activeYear}
           onYearSelect={(year) => scrollToYear(year, allItems)}
-          imageTop={mobileImageTop}
-          imageBottom={mobileImageBottom}
         />
       )}
 
@@ -222,9 +185,33 @@ export default function HomePage() {
         onClick={handleClick}
         className="h-dvh w-full overflow-y-scroll snap-y snap-mandatory no-scrollbar bg-white scroll-smooth cursor-pointer"
       >
-        {/* Desktop view - pairs */}
-        <div data-desktop className="hidden md:block landscape:block">
-          {pairs.map((pair, index) => (
+        {/* Only render the active view — halves DOM nodes and image loads */}
+        {isMobile ? (
+          // Mobile view - individual images
+          allItems.map((item, index) => (
+            <section
+              key={index}
+              className="h-dvh w-full snap-center flex flex-col items-center justify-center p-4"
+            >
+              <div className="flex items-center justify-center w-full h-full">
+                <div className="relative w-full h-full flex items-center justify-center">
+                  <Image
+                    src={item.src}
+                    alt={item.caption}
+                    width={800}
+                    height={800}
+                    className="max-w-full max-h-[85dvh] w-auto h-auto object-contain"
+                    priority={index < 2}
+                    quality={75}
+                    sizes="100vw"
+                  />
+                </div>
+              </div>
+            </section>
+          ))
+        ) : (
+          // Desktop view - pairs
+          pairs.map((pair, index) => (
             <section
               key={index}
               className="h-dvh w-full snap-center flex flex-col items-center justify-center p-8"
@@ -246,7 +233,7 @@ export default function HomePage() {
                             ? "max-h-[80dvh] w-auto object-contain md:min-w-[600px] md:max-w-[1200px] md:w-[60vw] md:h-auto landscape:min-w-0 landscape:w-auto landscape:max-w-full landscape:max-h-[60dvh]"
                             : "max-h-[80dvh] w-auto object-contain md:min-w-[300px] md:max-w-[600px] md:w-[30vw] md:h-auto landscape:min-w-0 landscape:w-auto landscape:max-w-full landscape:max-h-[60dvh]"
                         }
-                        priority={index < 3}
+                        priority={index < 2}
                         quality={75}
                         sizes="50vw"
                       />
@@ -260,33 +247,8 @@ export default function HomePage() {
                 ))}
               </div>
             </section>
-          ))}
-        </div>
-
-        {/* Mobile view - individual images */}
-        <div data-mobile className="md:hidden landscape:hidden">
-          {allItems.map((item, index) => (
-            <section
-              key={index}
-              className="h-dvh w-full snap-center flex flex-col items-center justify-center p-4"
-            >
-              <div className="flex items-center justify-center w-full h-full">
-                <div className="relative w-full h-full flex items-center justify-center">
-                  <Image
-                    src={item.src}
-                    alt={`${item.caption}`}
-                    width={800}
-                    height={800}
-                    className="max-w-full max-h-[85dvh] w-auto h-auto object-contain"
-                    priority={index < 3}
-                    quality={75}
-                    sizes="100vw"
-                  />
-                </div>
-              </div>
-            </section>
-          ))}
-        </div>
+          ))
+        )}
       </main>
     </>
   );

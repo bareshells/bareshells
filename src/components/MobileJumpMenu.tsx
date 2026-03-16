@@ -2,20 +2,18 @@
 
 import { useEffect, useRef } from "react";
 
+const BAR_HEIGHT = 149;
+
 interface MobileJumpMenuProps {
   years: string[];
   activeYear: string;
   onYearSelect: (year: string) => void;
-  imageTop?: number;
-  imageBottom?: number;
 }
 
 export default function MobileJumpMenu({
   years,
   activeYear,
   onYearSelect,
-  imageTop = 0,
-  imageBottom = 0,
 }: MobileJumpMenuProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -43,22 +41,16 @@ export default function MobileJumpMenu({
 
   return (
     <>
-      {/* Top bar - aligned to top of image */}
-      {imageTop > 0 && (
-        <div
-          className="fixed top-0 left-0 w-full bg-white z-40 md:hidden landscape:hidden"
-          style={{ height: `${imageTop}px` }}
-        />
-      )}
-
-      {/* Bottom bar - aligned to bottom of image, contains year selector */}
+      {/* Top bar */}
       <div
-        className="fixed left-0 w-full z-50 md:hidden landscape:hidden bg-white flex flex-col justify-end"
-        style={
-          imageBottom > 0
-            ? { top: `${imageBottom}px`, bottom: "0" }
-            : { bottom: "0", height: "56px" }
-        }
+        className="fixed top-0 left-0 w-full bg-white z-40"
+        style={{ height: `${BAR_HEIGHT}px` }}
+      />
+
+      {/* Bottom bar */}
+      <div
+        className="fixed bottom-0 left-0 w-full z-50 bg-white flex flex-col justify-end"
+        style={{ height: `${BAR_HEIGHT}px` }}
       >
         <div className="relative w-full h-14 overflow-hidden">
           {/* Gradient masks for fading effect */}
