@@ -19,24 +19,16 @@ export default function LandscapeOverlay() {
   if (!show) return null;
 
   return (
-    <div className="fixed inset-0 z-[100] bg-white flex flex-col items-center justify-center gap-6">
-      <svg
-        width="48"
-        height="48"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        className="text-gray-400 animate-pulse"
+    <div className="fixed inset-0 z-[100] bg-white flex items-center justify-center">
+      <span
+        className="material-symbols-outlined text-gray-400"
+        style={{
+          fontSize: 48,
+          fontVariationSettings: "'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24",
+        }}
       >
-        <rect x="4" y="2" width="16" height="20" rx="2" />
-        <line x1="12" y1="18" x2="12" y2="18.01" />
-      </svg>
-      <p className="font-light text-gray-500">
-        Please rotate your device to portrait
-      </p>
+        screen_rotation
+      </span>
     </div>
   );
 }
