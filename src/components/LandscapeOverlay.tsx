@@ -20,15 +20,7 @@ export default function LandscapeOverlay() {
 
   return (
     <div className="fixed inset-0 z-[100] bg-white flex items-center justify-center">
-      <span
-        className="material-symbols-outlined text-gray-400"
-        style={{
-          fontSize: 48,
-          fontVariationSettings: "'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24",
-        }}
-      >
-        screen_rotation
-      </span>
+      <span>Rotate</span>
     </div>
   );
 }
