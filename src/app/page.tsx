@@ -3,8 +3,14 @@
 import NavBar from "@/components/NavBar";
 import Image from "next/image";
 import { useRef, useState, useEffect, useMemo, useCallback } from "react";
-import ContentsPage from "@/components/ContentsPage";
-import MobileJumpMenu from "@/components/MobileJumpMenu";
+import YearBar from "@/components/YearBar";
+import ViewfinderFrame from "@/components/ViewfinderFrame";
+import {
+  DESKTOP_BAR_HEIGHT,
+  MOBILE_BAR_HEIGHT,
+  MOBILE_SIDE_PADDING,
+  DESKTOP_SIDE_INSET,
+} from "@/lib/layout";
 
 const pairs = [
   {
@@ -63,13 +69,15 @@ export default function HomePage() {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
 
-  // Track viewport size — only render one view at a time
+  // Track viewport size
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth < 768);
     check();
     window.addEventListener("resize", check);
     return () => window.removeEventListener("resize", check);
   }, []);
+
+  const barHeight = isMobile ? MOBILE_BAR_HEIGHT : DESKTOP_BAR_HEIGHT;
 
   const years = useMemo(() => {
     const uniqueYears = new Set<string>();
@@ -162,87 +170,79 @@ export default function HomePage() {
         <NavBar onDrawerChange={setDrawerOpen} />
       </div>
 
-      {/* Desktop date bar */}
-      {!isMobile && (
-        <ContentsPage
+      {/* Year bar — hidden when mobile drawer is open */}
+      {!(isMobile && drawerOpen) && (
+        <YearBar
           years={years}
-          onYearSelect={(year) => scrollToYear(year, pairs)}
           activeYear={activeYear}
+          onYearSelect={(year) =>
+            scrollToYear(year, isMobile ? allItems : pairs)
+          }
+          barHeight={barHeight}
         />
       )}
 
-      {/* Mobile date bar - hidden when drawer is open */}
-      {isMobile && !drawerOpen && (
-        <MobileJumpMenu
-          years={years}
-          activeYear={activeYear}
-          onYearSelect={(year) => scrollToYear(year, allItems)}
-        />
-      )}
+      <ViewfinderFrame isMobile={isMobile} />
 
       <main
         ref={mainRef}
         onClick={handleClick}
         className="h-dvh w-full overflow-y-scroll snap-y snap-mandatory no-scrollbar bg-white scroll-smooth cursor-pointer"
       >
-        {/* Only render the active view — halves DOM nodes and image loads */}
         {isMobile ? (
-          // Mobile view - individual images
           allItems.map((item, index) => (
             <section
               key={index}
-              className="h-dvh w-full snap-center flex flex-col items-center justify-center p-4"
+              className="h-dvh w-full snap-center flex flex-col items-center justify-center"
+              style={{
+                padding: `${barHeight} ${MOBILE_SIDE_PADDING}px`,
+              }}
             >
-              <div className="flex items-center justify-center w-full h-full">
-                <div className="relative w-full h-full flex items-center justify-center">
-                  <Image
-                    src={item.src}
-                    alt={item.caption}
-                    width={800}
-                    height={800}
-                    className="max-w-full max-h-[85dvh] w-auto h-auto object-contain"
-                    priority={index < 2}
-                    quality={75}
-                    sizes="100vw"
-                  />
-                </div>
+              <div className="relative w-full h-full">
+                <Image
+                  src={item.src}
+                  alt={item.caption}
+                  fill
+                  className="object-contain"
+                  priority={index < 2}
+                  quality={75}
+                  sizes="100vw"
+                />
               </div>
             </section>
           ))
         ) : (
-          // Desktop view - pairs
           pairs.map((pair, index) => (
             <section
               key={index}
-              className="h-dvh w-full snap-center flex flex-col items-center justify-center p-8"
+              className="h-dvh w-full snap-center flex flex-col items-center justify-center"
+              style={{
+                padding: `${barHeight} calc(${DESKTOP_SIDE_INSET} + 32px)`,
+              }}
             >
-              <div className="flex flex-row items-start justify-center gap-4 w-full relative">
+              <div className="flex flex-row items-center justify-center gap-4">
                 {pair.images.map((imageSrc, imgIndex) => (
                   <div
                     key={imgIndex}
-                    className="flex flex-col items-center justify-center max-w-full"
+                    className="flex flex-col items-center"
                   >
-                    <div className="relative w-full max-h-[80dvh]">
-                      <Image
-                        src={imageSrc}
-                        alt={`${pair.caption} ${imgIndex + 1}`}
-                        width={800}
-                        height={800}
-                        className={
+                    <Image
+                      src={imageSrc}
+                      alt={`${pair.caption} ${imgIndex + 1}`}
+                      width={800}
+                      height={800}
+                      className="w-auto object-contain"
+                      style={{
+                        maxHeight: `calc(100dvh - ${barHeight} - ${barHeight} - 24px)`,
+                        maxWidth:
                           pair.images.length === 1
-                            ? "max-h-[80dvh] w-auto object-contain md:min-w-[600px] md:max-w-[1200px] md:w-[60vw] md:h-auto landscape:min-w-0 landscape:w-auto landscape:max-w-full landscape:max-h-[60dvh]"
-                            : "max-h-[80dvh] w-auto object-contain md:min-w-[300px] md:max-w-[600px] md:w-[30vw] md:h-auto landscape:min-w-0 landscape:w-auto landscape:max-w-full landscape:max-h-[60dvh]"
-                        }
-                        priority={index < 2}
-                        quality={75}
-                        sizes="50vw"
-                      />
-                    </div>
-                    {imgIndex === pair.images.length - 1 && (
-                      <p className="mt-2 uppercase self-end landscape:hidden">
-                        {pair.caption}
-                      </p>
-                    )}
+                            ? `calc(100vw - (${DESKTOP_SIDE_INSET}) * 2 - 64px)`
+                            : `calc((100vw - (${DESKTOP_SIDE_INSET}) * 2 - 80px) / 2)`,
+                      }}
+                      priority={index < 2}
+                      quality={75}
+                      sizes="50vw"
+                    />
                   </div>
                 ))}
               </div>

@@ -2,22 +2,21 @@
 
 import { useEffect, useRef } from "react";
 
-const BAR_HEIGHT = 149;
-
-interface MobileJumpMenuProps {
+interface YearBarProps {
   years: string[];
   activeYear: string;
   onYearSelect: (year: string) => void;
+  barHeight: string;
 }
 
-export default function MobileJumpMenu({
+export default function YearBar({
   years,
   activeYear,
   onYearSelect,
-}: MobileJumpMenuProps) {
+  barHeight,
+}: YearBarProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  // Scroll active year into view
   useEffect(() => {
     if (scrollRef.current) {
       const activeElement = scrollRef.current.querySelector(
@@ -44,16 +43,15 @@ export default function MobileJumpMenu({
       {/* Top bar */}
       <div
         className="fixed top-0 left-0 w-full bg-white z-40"
-        style={{ height: `${BAR_HEIGHT}px` }}
+        style={{ height: barHeight }}
       />
 
-      {/* Bottom bar */}
+      {/* Bottom bar with years */}
       <div
-        className="fixed bottom-0 left-0 w-full z-50 bg-white flex flex-col justify-end"
-        style={{ height: `${BAR_HEIGHT}px` }}
+        className="fixed bottom-0 left-0 w-full z-40 bg-white flex flex-col justify-center"
+        style={{ height: barHeight }}
       >
         <div className="relative w-full h-14 overflow-hidden">
-          {/* Gradient masks for fading effect */}
           <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none" />
           <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none" />
 
@@ -69,7 +67,7 @@ export default function MobileJumpMenu({
                   e.stopPropagation();
                   onYearSelect(year);
                 }}
-                className={`snap-center shrink-0 font-medium transition-opacity duration-300 ${
+                className={`snap-center shrink-0 font-light transition-opacity duration-300 ${
                   activeYear === year
                     ? "opacity-100 text-black"
                     : "opacity-30 text-gray-500"

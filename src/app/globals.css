@@ -11,13 +11,16 @@
   --sar: env(safe-area-inset-right, 0px);
   --sab: env(safe-area-inset-bottom, 0px);
   --sal: env(safe-area-inset-left, 0px);
+
+
 }
 
 body {
   color: var(--foreground);
   background: var(--background);
   padding-bottom: var(--sab);
-  font-size: 11px;
+  font-size: 12px;
+  font-weight: 300;
 }
 
 @layer utilities {

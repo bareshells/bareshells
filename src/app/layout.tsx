@@ -1,5 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
+import LandscapeOverlay from "@/components/LandscapeOverlay";
+
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -27,7 +29,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body>{children}</body>
+      <body>
+        {children}
+        <LandscapeOverlay />
+      </body>
     </html>
   );
 }
