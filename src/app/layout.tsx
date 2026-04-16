@@ -10,14 +10,14 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "Bareshells",
-  applicationName: "Bareshells",
+  title: "Bare Shells",
+  applicationName: "Bare Shells",
   description: "info@bareshells.com",
   openGraph: {
-    title: "Bareshells",
+    title: "Bare Shells",
     description: "info@bareshells.com",
     url: "https://bareshells.com",
-    siteName: "Bareshells",
+    siteName: "Bare Shells",
     type: "website",
   },
 };

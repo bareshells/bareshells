@@ -97,9 +97,9 @@ export default function NavBar({ onDrawerChange }: NavBarProps) {
             src="/Bareshells Master Logo.png"
             width={120}
             height={16}
-            alt="Bareshells"
+            alt="Bare Shells"
             priority
-            className="h-[12px] md:h-[14px] w-auto"
+            className="h-[10px] md:h-[10px] w-auto"
           />
         </button>
       </div>
