@@ -13,9 +13,9 @@ export const faqData: FAQItem[] = [
           please contact{" "}
           <a
             className="hover:opacity-50 transition-opacity"
-            href="mailto:info@bareshells.com"
+            href="mailto:plum@bareshells.com"
           >
-            info@bareshells.com
+            plum@bareshells.com
           </a>
           . A small selection is available exclusively through{" "}
           <a
@@ -62,9 +62,9 @@ export const faqData: FAQItem[] = [
           We welcome collaboration. For proposals, please email{" "}
           <a
             className="hover:opacity-50 transition-opacity"
-            href="mailto:info@bareshells.com"
+            href="mailto:plum@bareshells.com"
           >
-            info@bareshells.com
+            plum@bareshells.com
           </a>{" "}
           with your concept or project outline.
         </p>

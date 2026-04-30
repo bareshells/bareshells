@@ -12,7 +12,7 @@ interface NavBarProps {
 const menuItems = [
   { label: "FAQ", href: "/faq" },
   { label: "Instagram", href: "https://instagram.com/bareshells" },
-  { label: "Contact", href: "mailto:info@bareshells.com" },
+  { label: "Contact", href: "mailto:plum@bareshells.com" },
 ];
 
 export default function NavBar({ onDrawerChange }: NavBarProps) {
