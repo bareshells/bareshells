@@ -4,55 +4,13 @@ import Image from "next/image";
 import { useRef, useState, useEffect, useMemo, useCallback } from "react";
 import YearBar from "@/components/YearBar";
 import ViewfinderFrame from "@/components/ViewfinderFrame";
+import pairs from "@/data/pairs.json";
 import {
   DESKTOP_BAR_HEIGHT,
   MOBILE_BAR_HEIGHT,
   MOBILE_SIDE_PADDING,
   DESKTOP_SIDE_INSET,
 } from "@/lib/layout";
-
-const pairs = [
-  {
-    images: ["/homepage/stool_exploded.png", "/homepage/stool_side.png"],
-    caption: "2025",
-  },
-  {
-    images: ["/homepage/chair_exploded.png", "/homepage/chair_side.png"],
-    caption: "2025",
-  },
-  {
-    images: ["/homepage/stool_table.png"],
-    caption: "2025",
-  },
-  {
-    images: ["/homepage/pot_side.png", "/homepage/pot_pour.png"],
-    caption: "2025",
-  },
-  {
-    images: ["/homepage/pot_exploded.png", "/homepage/pot_top.png"],
-    caption: "2025",
-  },
-  {
-    images: ["/homepage/maann_payu1.jpg", "/homepage/maann_payu3.jpg"],
-    caption: "2025",
-  },
-  {
-    images: ["/homepage/maann_payu2.jpg", "/homepage/maann_payu4.png"],
-    caption: "2025",
-  },
-  {
-    images: ["/homepage/3fold.jpg", "/homepage/1fold.jpg"],
-    caption: "2025",
-  },
-  {
-    images: ["/homepage/beech_skin1.jpg", "/homepage/beech_skin2.jpg"],
-    caption: "2024",
-  },
-  {
-    images: ["/homepage/beech_angle.jpg", "/homepage/beech_face.jpg"],
-    caption: "2024",
-  },
-];
 
 // Flatten pairs into individual items for mobile navigation
 const allItems = pairs.flatMap((pair) =>
