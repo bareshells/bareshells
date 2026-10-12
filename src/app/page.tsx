@@ -1,6 +1,5 @@
 "use client";
 
-import NavBar from "@/components/NavBar";
 import Image from "next/image";
 import { useRef, useState, useEffect, useMemo, useCallback } from "react";
 import YearBar from "@/components/YearBar";
@@ -66,7 +65,6 @@ const allItems = pairs.flatMap((pair) =>
 export default function HomePage() {
   const mainRef = useRef<HTMLElement>(null);
   const [activeYear, setActiveYear] = useState<string>("");
-  const [drawerOpen, setDrawerOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
 
   // Track viewport size
@@ -166,21 +164,15 @@ export default function HomePage() {
 
   return (
     <>
-      <div className="fixed top-0 left-0 w-full z-50 bg-white/90 backdrop-blur-sm">
-        <NavBar onDrawerChange={setDrawerOpen} />
-      </div>
-
-      {/* Year bar — hidden when mobile drawer is open */}
-      {!(isMobile && drawerOpen) && (
-        <YearBar
-          years={years}
-          activeYear={activeYear}
-          onYearSelect={(year) =>
-            scrollToYear(year, isMobile ? allItems : pairs)
-          }
-          barHeight={barHeight}
-        />
-      )}
+      {/* Year bar */}
+      <YearBar
+        years={years}
+        activeYear={activeYear}
+        onYearSelect={(year) =>
+          scrollToYear(year, isMobile ? allItems : pairs)
+        }
+        barHeight={barHeight}
+      />
 
       <ViewfinderFrame isMobile={isMobile} />
 
